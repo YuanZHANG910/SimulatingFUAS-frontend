@@ -1,0 +1,5 @@
+# microservice specific routes
+
+GET     /hello-world                uk.gov.hmrc.SimulatingFUAS.controllers.HelloWorld.helloWorld
+GET     /CreateAnEnvelope           uk.gov.hmrc.SimulatingFUAS.controllers.HelloWorld.callCreateAnEnvelope
+POST    /upLoadFiles                uk.gov.hmrc.SimulatingFUAS.controllers.HelloWorld.upLoadingFiles(eID:String)
