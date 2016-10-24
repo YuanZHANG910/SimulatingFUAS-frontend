@@ -11,17 +11,18 @@
 @serviceInfoContent = {}
 
 @sidebar = {
-    @if(sidebarLinks.isDefined) {
-        @layouts.sidebar(sidebarLinks.get, Some("sidebar"))
-    }
+    <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.main"><input type="button" style="width:210px;" value="View An Envelope"/></a>
+    <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController.main"><input type="button" style="width:210px;" value="View Files"/></a>
+    <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.callCreateAnEnvelope"><input type="button" style="width:210px;" value="Create An Envelope And Upload"/></a>
+    <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.callCreateAnEnvelope"><input type="button" style="width:210px;" value="About the App"/></a>
 }
 
 
 @govuk_wrapper(appConfig = uk.gov.hmrc.SimulatingFUAS.FrontendAppConfig,
                title = title,
+               sidebar = sidebar,
                mainClass = mainClass,
                bodyClasses = bodyClasses,
-               sidebar = sidebar,
                contentHeader = contentHeader,
                mainContent = layouts.article(mainContent),
                serviceInfoContent = serviceInfoContent,

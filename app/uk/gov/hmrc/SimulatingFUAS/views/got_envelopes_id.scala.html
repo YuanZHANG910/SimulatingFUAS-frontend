@@ -1,27 +1,25 @@
 @(id: String)(implicit request: Request[_])
-@import play.api.Play.current
-@import play.api.i18n.Messages
-@import play.api.mvc.Flash
-@import helper._
-@import play.api.http._
-@import play.filters.csrf.CSRFFilter
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend", bodyClasses = None) {
+
+    <script language="JavaScript">
+        function popupMsg(msg) {
+            alert(msg);
+        }
+    </script>
+
     <h1> Your Envelopes' Id is :</h1>
     @id
 
     <h3> Your can upload files now:</h3>
+    @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.upLoadingFiles(id), 'enctype -> "multipart/form-data") {
 
-    @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.HelloWorld.upLoadingFiles(id)) {
+        @helper.CSRF.formField
 
-        <input type="file" name="File">
-        <input type="file" name="File">
-        <input type="file" name="File">
-        <input type="file" name="File">
         <input type="file" name="File">
 
         <p>
-            <input type="submit">
+            <input type="submit" onclick="popupMsg('Continue')"/>
         </p>
 
     }

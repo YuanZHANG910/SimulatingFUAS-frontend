@@ -1,0 +1,26 @@
+@import play.api.libs.json.Json
+@import play.api.libs.json.JsValue
+@(id: String)(inf: String)(implicit request: Request[_])
+
+@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend", bodyClasses = None) {
+
+  <h3> Please enter an envelopes' id:</h3>
+
+  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInf) {
+
+    @helper.CSRF.formField
+
+    <input name="envelopes'ID"  style="width:510px;"  type="text" placeholder="envelopes'ID">
+
+    <p>
+      <input type="submit"/>
+    </p>
+
+  }
+
+  <h1>For the envelope:@id</h1>
+  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInfRE(id)"><input type="button" style="width:210px;" value="Details"/></a>
+  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeEve(id)"><input type="button" style="width:210px;" value="Events"/></a>
+  <pre>@inf</pre>
+
+}
