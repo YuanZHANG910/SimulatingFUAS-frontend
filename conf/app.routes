@@ -1,7 +1,7 @@
 # microservice specific routes
 
 
-GET     /index                      uk.gov.hmrc.SimulatingFUAS.controllers.IndexController.helloWorld
+GET     /index                      uk.gov.hmrc.SimulatingFUAS.controllers.IndexController.index
 
 GET     /envelopes                  uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main
 GET     /envelopesInf               uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInf
@@ -9,10 +9,12 @@ GET     /envelopesInf/:id           uk.gov.hmrc.SimulatingFUAS.controllers.Envel
 GET     /envelopesInfRE/:id         uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInfRE(id: String)
 GET     /envelopesEve               uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeEve(id: String)
 
-GET     /fils                       uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.main
+GET     /files                      uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.main
 
 GET     /CreateAnEnvelope           uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.callCreateAnEnvelope
 POST    /upLoadFiles/:eld/          uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.upLoadingFiles(eld:String)
+
+GET     /about                      uk.gov.hmrc.SimulatingFUAS.controllers.IndexController.about
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file:Asset)

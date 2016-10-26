@@ -35,4 +35,13 @@ trait BackConnector {
     val res = http.GET(s"$Url/file-upload/events/$eid").map(response => response.json)
     res
   }
+
+  def loadFiles(implicit hc: HeaderCarrier): Future[JsValue] = {
+    val res = http.GET(s"$Url/file-upload/files/inprogress").map(response => response.json)
+    res
+  }
+
+//  events(envelopeId: string) {
+//    return `${this.backend()}/be/file-upload/events/${envelopeId}`
+//  }
 }

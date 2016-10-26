@@ -9,9 +9,14 @@ object IndexController extends IndexController
 
 trait IndexController extends Controller with FrontendController {
 
-  val helloWorld = Action.async {
+  val index = Action.async {
     implicit request =>
 		Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.index()).withHeaders())
+  }
+
+  val about = Action.async {
+    implicit request =>
+      Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.about()).withHeaders())
   }
 
 }

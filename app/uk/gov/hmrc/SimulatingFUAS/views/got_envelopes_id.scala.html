@@ -8,18 +8,18 @@
         }
     </script>
 
-    <h1> Your Envelopes' Id is :</h1>
-    @id
+    <h1>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Your Envelopes' Id is :</h1>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  @id
 
-    <h3> Your can upload files now:</h3>
-    @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.upLoadingFiles(id), 'enctype -> "multipart/form-data") {
+    <h3>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Your can upload files now:</h3>
+    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.upLoadingFiles(id), 'enctype -> "multipart/form-data") {
 
         @helper.CSRF.formField
 
-        <input type="file" name="File">
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="file" name="File">
 
         <p>
-            <input type="submit" onclick="popupMsg('Continue')"/>
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="submit" onclick="popupMsg('Continue')"/>
         </p>
 
     }
