@@ -3,19 +3,20 @@
   contentHeader: Option[Html] = None,
   bodyClasses: Option[String] = None,
   mainClass: Option[String] = None,
-  scriptElem: Option[Html] = None)(mainContent: Html)(implicit request : Request[_])
+  scriptElem: Option[Html] = None)(mainContent: Html)(implicit request : Request[_], messages: Messages)
 
 @import uk.gov.hmrc.play.views.html.layouts
 
 
-@serviceInfoContent = {}
+@serviceInfoContent = {
 
-@sidebar = {
     &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.main"><input type="button" style="width:210px;" value="View An Envelope"/></a>
     <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController.main"><input type="button" style="width:210px;" value="View Files"/></a>
     <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.callCreateAnEnvelope"><input type="button" style="width:210px;" value="Create An Envelope And Upload"/></a>
     <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.IndexController.about"><input type="button" style="width:210px;" value="About the App"/></a>
 }
+
+@sidebar = {}
 
 
 @govuk_wrapper(appConfig = uk.gov.hmrc.SimulatingFUAS.FrontendAppConfig,

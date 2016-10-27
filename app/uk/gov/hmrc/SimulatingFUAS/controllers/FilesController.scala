@@ -1,9 +1,10 @@
 package uk.gov.hmrc.SimulatingFUAS.controllers
 
-import play.api.libs.json.{Json, Writes}
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Controller}
 import uk.gov.hmrc.SimulatingFUAS.{BackConnector, FrontConnector}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import play.api.Play.current
 
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -29,7 +30,7 @@ trait FilesController extends Controller with FrontendController  {
             files = files :+ File(envelopeId(i), fileId(i), fileRef(i), startedAt(i).toString)
           }
 
-          Ok(uk.gov.hmrc.SimulatingFUAS.views.html.file_main(files)).withHeaders()
+          Ok(uk.gov.hmrc.SimulatingFUAS.views.html.file_main(files)(request, applicationMessages)).withHeaders()
       }
   }
 }

@@ -3,12 +3,13 @@ package uk.gov.hmrc.SimulatingFUAS
 import java.net.URLEncoder
 import java.nio.file.Paths
 
-import play.api.Play.current
-import play.api.libs.json.Json
 import play.api.libs.ws.WS
 import play.api.mvc.{Headers, MultipartFormData}
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost}
+import uk.gov.hmrc.play.filters.MicroserviceFilterSupport
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

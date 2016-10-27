@@ -1,7 +1,6 @@
 package uk.gov.hmrc.SimulatingFUAS
 
 import play.api.libs.json.{JsValue, Json}
-import uk.gov.hmrc.SimulatingFUAS.controllers.UserInput
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost}
 
