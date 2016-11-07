@@ -1,10 +1,7 @@
-package uk.gov.hmrc.SimulatingFUAS
+package uk.gov.hmrc.SimulatingFUAS.supports
 
 import play.api.libs.json.Json
 
-/**
-  * Created by yuan on 06/10/16.
-  */
 case class Response(resp : String)
 
 object Response {

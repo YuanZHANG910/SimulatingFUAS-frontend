@@ -23,10 +23,10 @@
       <tbody>
         @for(file <- files){
             <tr>
-                <td>&nbsp&nbsp&nbsp&nbsp<a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInfRE(file.EnvelopeID)">@file.EnvelopeID</a> &nbsp&nbsp&nbsp</td>
-                <td>&nbsp&nbsp&nbsp@file.FileID &nbsp&nbsp&nbsp</td>
-                <td>&nbsp&nbsp&nbsp@file.FileRef &nbsp&nbsp&nbsp</td>
-                <td>&nbsp&nbsp&nbsp <script language="JavaScript">document.write(new Date(@file.startedAt).toGMTString());</script> &nbsp&nbsp&nbsp</td>
+                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInfRE(file.EnvelopeID)">@file.EnvelopeID</a> &nbsp&nbsp&nbsp</td>
+                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp@file.FileID &nbsp&nbsp&nbsp</td>
+                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp@file.FileRef &nbsp&nbsp&nbsp</td>
+                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<script language="JavaScript">document.write(new Date(@file.startedAt).toGMTString());</script> </td>
             </tr>
         }
 

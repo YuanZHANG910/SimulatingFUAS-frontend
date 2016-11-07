@@ -2,10 +2,13 @@
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend", bodyClasses = None) {
 
+    <link rel="stylesheet" type="text/css" href="mainStyle.css">
+
     <script language="JavaScript">
-        function popupMsg(msg) {
-            alert(msg);
-        }
+            function popupAddMsg(msg) {
+                alert(msg);
+                alert(msg);
+            }
     </script>
 
     <h1>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Your Envelopes' Id is :</h1>
@@ -19,7 +22,7 @@
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="file" name="File">
 
         <p>
-            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="submit" onclick="popupMsg('Continue')"/>
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="submit" onclick="popupAddMsg('file has been added')"/>
         </p>
 
     }

@@ -2,11 +2,10 @@ package uk.gov.hmrc.SimulatingFUAS.controllers
 
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Controller}
-import uk.gov.hmrc.SimulatingFUAS.{BackConnector, FrontConnector}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import play.api.Play.current
+import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
 
-import scala.concurrent.ExecutionContext.Implicits.global
 
 object FilesController extends FilesController
 
