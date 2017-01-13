@@ -4,13 +4,13 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import play.api.libs.ws.ahc.AhcWSClient
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 
 trait ActionsSupport {
 
-  implicit val ec = ExecutionContext.global
+  implicit val ec: ExecutionContextExecutor = ExecutionContext.global
 
-  implicit val akkaSys = ActorSystem.create()
+  implicit val akkaSys: ActorSystem = ActorSystem.create()
   implicit val mat = ActorMaterializer()
   val client = AhcWSClient()
 

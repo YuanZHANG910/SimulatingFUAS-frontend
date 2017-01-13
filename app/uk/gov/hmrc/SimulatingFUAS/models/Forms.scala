@@ -22,3 +22,4 @@ object Forms {
 
 case class UserInput(input: String)
 case class User(name: String, password: String)
+case class File(EnvelopeID: String, FileID: String, FileRef: String, startedAt: String)

@@ -4,6 +4,7 @@ import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Controller}
 import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController._
+import uk.gov.hmrc.SimulatingFUAS.models.File
 import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
@@ -33,5 +34,3 @@ object FilesController extends Controller with FrontendController {
 
 
 }
-
-case class File(EnvelopeID: String, FileID: String, FileRef: String, startedAt: String)

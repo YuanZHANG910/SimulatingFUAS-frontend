@@ -25,7 +25,7 @@ import play.api.mvc.RequestHeader
 class AuthorisingAuth {
 
   val authCode = "admin:$2a$10$LYNcgBSUFCUcRfKZCyfSNueAXCdxZB1sRjTnVY.nshDNEKiyPoxF2;"
-  val authorisedUsers = getAuthorisedUsers(authCode)
+  val authorisedUsers: List[User] = getAuthorisedUsers(authCode)
 
   def checkName(name: String, password: String): Boolean = {
     authorisedUsers.exists(user => user.name == name && password.isBcrypted(user.password))
