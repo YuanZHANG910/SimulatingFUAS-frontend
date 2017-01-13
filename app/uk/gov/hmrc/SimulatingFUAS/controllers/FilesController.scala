@@ -3,17 +3,16 @@ package uk.gov.hmrc.SimulatingFUAS.controllers
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Controller}
+import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController._
 import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
-import scala.collection.mutable.ListBuffer
 
-
-object FilesController extends Controller with FrontendController  {
+object FilesController extends Controller with FrontendController {
   val frontConnector = FrontConnector
   val backConnector = BackConnector
 
-  val main: Action[AnyContent] = Action.async {
+  val main: Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
 
       backConnector.loadFiles.map {
@@ -30,8 +29,9 @@ object FilesController extends Controller with FrontendController  {
 
           Ok(uk.gov.hmrc.SimulatingFUAS.views.html.file_main(files)(request, applicationMessages)).withHeaders()
       }
-
   }
+
+
 }
 
 case class File(EnvelopeID: String, FileID: String, FileRef: String, startedAt: String)

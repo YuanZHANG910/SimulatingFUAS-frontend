@@ -7,6 +7,7 @@ import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, Controller}
 import uk.gov.hmrc.SimulatingFUAS.models.{Forms, UserInput}
 import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
+import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController._
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
@@ -18,12 +19,12 @@ object EnvelopeController extends Controller with FrontendController {
 
   val inputEnvelopesId : Form[UserInput] = Forms.inputEnvelopesId
 
-  val main: Action[AnyContent] = Action.async {
+  val main: Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
       Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.envelope_main("")(request, applicationMessages)).withHeaders())
   }
 
-  def loadEnvelopeInf: Action[AnyContent] = Action.async {
+  def loadEnvelopeInf: Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
       val submitInput = inputEnvelopesId.bindFromRequest()
       val result = backConnector.loadEnvelopeInf(submitInput.data("envelopes'ID")).map {
@@ -35,12 +36,12 @@ object EnvelopeController extends Controller with FrontendController {
       }
   }
 
-  def loadEnvelopeInfR(id: String, inf: String) = Action {
+  def loadEnvelopeInfR(id: String, inf: String): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
-      Ok(uk.gov.hmrc.SimulatingFUAS.views.html.envelopes_inf(id)(inf)(request, applicationMessages))
+      Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.envelopes_inf(id)(inf)(request, applicationMessages)))
   }
 
-  def loadEnvelopeInfRE(id: String): Action[AnyContent] = Action.async {
+  def loadEnvelopeInfRE(id: String): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
     backConnector.loadEnvelopeInf(id).map {
       resultFromBackEnd =>
@@ -48,7 +49,7 @@ object EnvelopeController extends Controller with FrontendController {
     }
   }
 
-  def loadEnvelopeEve(id: String): Action[AnyContent] = Action.async {
+  def loadEnvelopeEve(id: String): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
       backConnector.loadEnvelopeEve(id).map {
         resultFromBackEnd =>
@@ -56,7 +57,7 @@ object EnvelopeController extends Controller with FrontendController {
       }
   }
 
-  def replay(id: String, inf: String): Action[AnyContent] = Action.async {
+  def replay(id: String, inf: String): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
       backConnector.loadEnvelopeEve(id).map {
         resultFromBackEnd =>

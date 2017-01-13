@@ -1,5 +1,6 @@
 package uk.gov.hmrc.SimulatingFUAS.controllers
 
+import play.api.Logger
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.controller.FrontendController
@@ -12,15 +13,17 @@ import scala.concurrent.Future
 
 object LoginController extends Controller with FrontendController {
 
+  val auth:AuthorisingAuth = new AuthorisingAuth
   val userLoginForm: Form[User] = Forms.userLoginForm
+  implicit val anyContentBodyParser: BodyParser[AnyContent] = parse.anyContent
 
   def loginPage(continueUrl: String): Action[AnyContent] = Action.async {
     implicit request => {
-      Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.loginIndex(userLoginForm, request.uri)(request, applicationMessages)))
+      Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.loginIndex(userLoginForm, continueUrl)(request, applicationMessages)))
     }
   }
 
-  val about: Action[AnyContent] = Action.async {
+  def about: Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
       Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.about()(request, applicationMessages)).withHeaders())
   }
@@ -39,12 +42,31 @@ object LoginController extends Controller with FrontendController {
 
   def checkAuth(name: String, password: String, loginForm: Form[User], continueUrl: String)
                (run: => Result)(implicit request: Request[AnyContent]): Result = {
-    val auth:AuthorisingAuth = new AuthorisingAuth
     if (auth.checkName(name: String, password: String)) {
       run
     } else {
       val formWithError = userLoginForm.withGlobalError("Please check and re-enter your user name and password")
       Ok(uk.gov.hmrc.SimulatingFUAS.views.html.loginIndex(formWithError, continueUrl)(request, applicationMessages))
+    }
+  }
+
+  def securedAction[T](furtherAction: Request[T] => Future[Result])(implicit bodyParser: BodyParser[T]): Action[T] =
+    Action.async(bodyParser) { implicit request =>
+      hasValidToken{furtherAction(request)}{
+        request.session.get("userName").map { userName =>
+          Logger.info(s"Request ${request.method} ${request.uri} done by: $userName")
+          furtherAction(request)
+        }.getOrElse(
+            Future.successful(Redirect(routes.LoginController.loginPage(request.uri)))
+        )
+      }
+    }
+
+  private def hasValidToken(furtherActionWithToken: => Future[Result])(furtherActionWithoutToken: => Future[Result])(implicit request: RequestHeader): Future[Result] = {
+    if (auth.checkToken) {
+      furtherActionWithToken
+    } else {
+      furtherActionWithoutToken
     }
   }
 }
