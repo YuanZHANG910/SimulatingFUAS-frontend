@@ -1,12 +1,8 @@
-@(id: String)(implicit request: Request[_])
+@(id: String)(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend", bodyClasses = None) {
 
-    <script language="JavaScript">
-        function popupMsg(msg) {
-            alert(msg);
-        }
-    </script>
+    <link rel="stylesheet" type="text/css" href="mainStyle.css">
 
     <h1>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Your Envelopes' Id is :</h1>
     &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  @id
@@ -19,7 +15,7 @@
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="file" name="File">
 
         <p>
-            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="submit" onclick="popupMsg('Continue')"/>
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="submit"/>
         </p>
 
     }

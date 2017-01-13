@@ -1,9 +1,8 @@
-@import uk.gov.hmrc.SimulatingFUAS.controllers.File
+@import uk.gov.hmrc.SimulatingFUAS.models.FileInProgress
 
-@(files: List[File])(implicit request: Request[_])
+@(files: List[FileInProgress])(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend") {
-
 
   <h3>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp All Files Show as Below:</h3>
 
@@ -17,6 +16,7 @@
           <th>File ID</th>
           <th>File Ref</th>
           <th>Started At</th>
+          <th>    </th>
           <th></th>
         </tr>
       </thead>
@@ -24,10 +24,12 @@
       <tbody>
         @for(file <- files){
             <tr>
-                <td>&nbsp<a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInfRE(file.EnvelopeID)">@file.EnvelopeID</a> &nbsp&nbsp&nbsp</td>
-                <td>&nbsp&nbsp&nbsp@file.FileID &nbsp&nbsp&nbsp</td>
-                <td>&nbsp&nbsp&nbsp@file.FileRef &nbsp&nbsp&nbsp</td>
-                <td>&nbsp&nbsp&nbsp@file.startedAt &nbsp&nbsp&nbsp</td>
+                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInfRE(file.EnvelopeID)">@file.EnvelopeID</a> &nbsp&nbsp&nbsp</td>
+                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp@file.FileID &nbsp&nbsp&nbsp</td>
+                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp@file.FileRef &nbsp&nbsp&nbsp</td>
+                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<script language="JavaScript">document.write(new Date(@file.startedAt).toGMTString());</script> </td>
+                <td>&nbsp&nbsp<a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.about"><input type="button" style="width:110px;" value="Rescan"/></a></td>
+
             </tr>
         }
 
