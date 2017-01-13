@@ -1,7 +1,7 @@
 package uk.gov.hmrc.SimulatingFUAS.supports
 
 import play.api.libs.json.{JsValue, Json}
-import uk.gov.hmrc.SimulatingFUAS.WSHttp
+import uk.gov.hmrc.SimulatingFUAS.config.WSHttp
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost}
 

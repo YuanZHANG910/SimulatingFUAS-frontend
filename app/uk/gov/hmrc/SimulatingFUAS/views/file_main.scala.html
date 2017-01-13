@@ -16,6 +16,7 @@
           <th>File ID</th>
           <th>File Ref</th>
           <th>Started At</th>
+          <th>    </th>
           <th></th>
         </tr>
       </thead>
@@ -27,6 +28,8 @@
                 <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp@file.FileID &nbsp&nbsp&nbsp</td>
                 <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp@file.FileRef &nbsp&nbsp&nbsp</td>
                 <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<script language="JavaScript">document.write(new Date(@file.startedAt).toGMTString());</script> </td>
+                <td>&nbsp&nbsp<a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.about"><input type="button" style="width:110px;" value="Rescan"/></a></td>
+
             </tr>
         }
 

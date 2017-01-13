@@ -1,36 +1,29 @@
 package uk.gov.hmrc.SimulatingFUAS.controllers
 
-import play.api.data.Form
-import play.api.data.Forms.{mapping, nonEmptyText}
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, Controller}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
-import play.api.libs.json.Json
 import play.api.Play.current
+import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.api.libs.json.Json
+import play.api.mvc.{Action, AnyContent, Controller}
+import uk.gov.hmrc.SimulatingFUAS.models.{Forms, UserInput}
 import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 
 
-case class UserInput(input: String)
-
-object EnvelopeController extends EnvelopeController
-
-trait EnvelopeController extends Controller with FrontendController {
+object EnvelopeController extends Controller with FrontendController {
   val frontConnector = FrontConnector
   val backConnector = BackConnector
 
-  val inputEnvelopesId : Form[UserInput] =
-    Form(mapping(
-      "input" -> nonEmptyText
-    )(UserInput.apply)(UserInput.unapply))
+  val inputEnvelopesId : Form[UserInput] = Forms.inputEnvelopesId
 
-  val main = Action.async {
+  val main: Action[AnyContent] = Action.async {
     implicit request =>
       Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.envelope_main("")(request, applicationMessages)).withHeaders())
   }
 
-  def loadEnvelopeInf = Action.async {
+  def loadEnvelopeInf: Action[AnyContent] = Action.async {
     implicit request =>
       val submitInput = inputEnvelopesId.bindFromRequest()
       val result = backConnector.loadEnvelopeInf(submitInput.data("envelopes'ID")).map {
@@ -47,7 +40,7 @@ trait EnvelopeController extends Controller with FrontendController {
       Ok(uk.gov.hmrc.SimulatingFUAS.views.html.envelopes_inf(id)(inf)(request, applicationMessages))
   }
 
-  def loadEnvelopeInfRE(id: String) = Action.async {
+  def loadEnvelopeInfRE(id: String): Action[AnyContent] = Action.async {
     implicit request =>
     backConnector.loadEnvelopeInf(id).map {
       resultFromBackEnd =>
@@ -55,7 +48,7 @@ trait EnvelopeController extends Controller with FrontendController {
     }
   }
 
-  def loadEnvelopeEve(id: String) = Action.async {
+  def loadEnvelopeEve(id: String): Action[AnyContent] = Action.async {
     implicit request =>
       backConnector.loadEnvelopeEve(id).map {
         resultFromBackEnd =>
@@ -63,7 +56,7 @@ trait EnvelopeController extends Controller with FrontendController {
       }
   }
 
-  def replay(id: String, inf: String) = Action.async {
+  def replay(id: String, inf: String): Action[AnyContent] = Action.async {
     implicit request =>
       backConnector.loadEnvelopeEve(id).map {
         resultFromBackEnd =>

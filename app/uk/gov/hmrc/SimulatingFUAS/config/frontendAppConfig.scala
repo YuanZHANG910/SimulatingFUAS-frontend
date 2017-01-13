@@ -1,4 +1,4 @@
-package uk.gov.hmrc.SimulatingFUAS
+package uk.gov.hmrc.SimulatingFUAS.config
 
 import play.api.Play.{configuration, current}
 import uk.gov.hmrc.play.config.ServicesConfig

@@ -32,7 +32,8 @@ private object AppDependencies {
     "uk.gov.hmrc" %% "logback-json-logger" % playJsonLoggerVersion,
     "uk.gov.hmrc" %% "govuk-template" % govukTemplateVersion,
     "uk.gov.hmrc" %% "play-health" % playHealthVersion,
-    "uk.gov.hmrc" %% "play-ui" % playUiVersion
+    "uk.gov.hmrc" %% "play-ui" % playUiVersion,
+    "com.github.t3hnar" %% "scala-bcrypt" % "3.0"
   )
 
   trait TestDependencies {

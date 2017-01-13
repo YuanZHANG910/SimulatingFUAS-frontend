@@ -4,7 +4,7 @@ import java.net.URLEncoder
 import java.nio.file.Paths
 
 import play.api.mvc.{Headers, MultipartFormData}
-import uk.gov.hmrc.SimulatingFUAS.WSHttp
+import uk.gov.hmrc.SimulatingFUAS.config.WSHttp
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost}
 

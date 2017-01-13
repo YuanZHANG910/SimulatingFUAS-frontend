@@ -1,6 +1,6 @@
 package uk.gov.hmrc.SimulatingFUAS.controllers
 
-import play.api.mvc.{Action, Controller}
+import play.api.mvc.{Action, AnyContent, Controller}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
@@ -15,7 +15,7 @@ trait NewEnvelopesController extends Controller with FrontendController {
   val frontConnector = FrontConnector
   val backConnector = BackConnector
 
-  val callCreateAnEnvelope = Action.async {
+  val callCreateAnEnvelope: Action[AnyContent] = Action.async {
     implicit request =>
       backConnector.createAnEmptyEnvelope.map {
         resultFromBackEnd =>
@@ -25,7 +25,7 @@ trait NewEnvelopesController extends Controller with FrontendController {
       }
   }
 
-  def upLoadingFiles(eid:String) = Action.async {
+  def upLoadingFiles(eid:String): Action[AnyContent] = Action.async {
     implicit request =>
       frontConnector.upLoadFiles(eid, request.headers)(request.body.asMultipartFormData)
       Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.got_envelopes_id(eid)(request, applicationMessages)))
