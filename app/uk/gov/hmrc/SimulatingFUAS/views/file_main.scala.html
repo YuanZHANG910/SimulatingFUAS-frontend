@@ -1,6 +1,6 @@
-@import uk.gov.hmrc.SimulatingFUAS.controllers.File
+@import uk.gov.hmrc.SimulatingFUAS.models.FileInProgress
 
-@(files: List[File])(implicit request: Request[_], messages: Messages)
+@(files: List[FileInProgress])(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend") {
 

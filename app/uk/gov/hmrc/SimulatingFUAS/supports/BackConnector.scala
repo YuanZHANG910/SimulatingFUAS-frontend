@@ -9,7 +9,7 @@ import scala.concurrent.Future
 
 object BackConnector extends BackConnector with ServicesConfig with ActionsSupport {
 
-  lazy val Url = baseUrl("file-back")
+  lazy val Url: String = baseUrl("file-back")
   val http = WSHttp
 
   def createAnEmptyEnvelope(implicit hc: HeaderCarrier): Future[String] = {

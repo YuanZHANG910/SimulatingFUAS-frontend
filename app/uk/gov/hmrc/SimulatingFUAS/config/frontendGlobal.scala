@@ -22,10 +22,6 @@ object FrontendGlobal
   override val loggingFilter = LoggingFilter
   override val frontendAuditFilter = AuditFilter
 
-//  var authorisedUsers: Option[String] = _
-//  val LoginControllerClass: Class[LoginController] = classOf[LoginController]
-//  val loginController = new LoginController(authorisedUsers)
-
   override def onStart(app: Application) {
     super.onStart(app)
     ApplicationCrypto.verifyConfiguration()

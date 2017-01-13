@@ -10,12 +10,12 @@ import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost}
 
 object FrontConnector extends FrontConnector with ServicesConfig with ActionsSupport {
 
-  lazy val Url = baseUrl("file-front")
+  lazy val Url: String = baseUrl("file-front")
   val http = WSHttp
 
   def upLoadFiles(eId:String, requestHeader: Headers)(files: Option[MultipartFormData[play.api.libs.Files.TemporaryFile]])(implicit headerCarrier: HeaderCarrier): Unit = {
 
-    for (file <- files.map(_.files).toList(0)) {
+    for (file <- files.map(_.files).toList.head) {
       val path = Paths.get(file.ref.file.getAbsolutePath)
       val data = java.nio.file.Files.readAllBytes(path)
       val encodedFileName = URLEncoder.encode(file.filename)
