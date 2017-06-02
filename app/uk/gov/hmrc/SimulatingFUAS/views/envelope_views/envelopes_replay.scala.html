@@ -1,0 +1,33 @@
+@(id: String)(inf: String)(implicit request: Request[_], messages: Messages)
+
+@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend", mainClass = Some("full-width")) {
+  @uk.gov.hmrc.SimulatingFUAS.views.html.main_base()
+
+  <h3>Please enter an envelopes' id:</h3>
+
+  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInf) {
+
+    @helper.CSRF.formField
+
+    <input name="envelopes'ID" style="width:510px;" type="text" placeholder="envelopes'ID">
+
+    <p>
+      <input class="button" type="submit"/>
+    </p>
+
+  }
+
+  <h3>For the envelope:@id</h3>
+
+  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInfRE(id)">
+    <input class="button button--table" style="width:210px;" value="Details"/>
+  </a>
+  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeEve(id)">
+    <input class="button button--table" style="width:210px;" value="Events"/>
+  </a>
+  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.replay(id, inf)">
+    <input class="button button--table" style="width:210px;" value="RePlay"/>
+  </a>
+  <pre style="margin-right: auto;">@inf</pre>
+
+}

@@ -31,6 +31,14 @@ object FrontConnector extends FrontConnector with ServicesConfig with ActionsSup
         .post("-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"file1\"; filename=\"" + file.filename + "\"\r\nContent-Type: text/plain\r\n\r\n" + data.mkString + "\r\n-----011000010111000001101001--")
     }
   }
+
+  def scan(envelopeId: String, fileId: String, fileRef: String)(implicit headerCarrier: HeaderCarrier): Unit = {
+
+  }
+
+  def move(envelopeId: String, fileId: String, fileRef: String)(implicit headerCarrier: HeaderCarrier): Unit = {
+
+  }
 }
 
 trait FrontConnector{

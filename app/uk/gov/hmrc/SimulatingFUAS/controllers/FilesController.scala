@@ -8,6 +8,7 @@ import uk.gov.hmrc.SimulatingFUAS.models.FileInProgress
 import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController._
 import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
 import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.SimulatingFUAS.views.html.file_views._
 
 
 object FilesController extends Controller with FrontendController  {
@@ -30,7 +31,38 @@ object FilesController extends Controller with FrontendController  {
             files = files :+ FileInProgress(envelopeId(i), fileId(i), fileRef(i), startedAt(i).toString)
           }
 
-          Ok(uk.gov.hmrc.SimulatingFUAS.views.html.file_main(files)(request, applicationMessages)).withHeaders()
+          Ok(file_main(files)(request, applicationMessages)).withHeaders()
       }
+  }
+
+  def scan(envelopeId: String, fileId: String, fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
+
+    ???
+//    implicit request =>
+
+//      frontConnector.scan(envelopeId, fileId, fileRef).map {
+//        resultFromFrontEnd =>
+//          var files: List[FileInProgress] = List.empty
+//          val envelopeId = resultFromBackEnd.\\("envelopeId").map(_.as[String]).toList
+//          val fileId = resultFromBackEnd.\\("fileId").map(_.as[String]).toList
+//          val fileRef = resultFromBackEnd.\\("_id").map(_.as[String]).toList
+//          val startedAt = resultFromBackEnd.\\("startedAt").map(_.as[Long]).toList
+//
+//          for (i <- envelopeId.indices) {
+//            files = files :+ FileInProgress(envelopeId(i), fileId(i), fileRef(i), startedAt(i).toString)
+//          }
+//
+//          Ok(uk.gov.hmrc.SimulatingFUAS.views.html.file_main(files)(request, applicationMessages)).withHeaders()
+//      }
+  }
+
+  def move(envelopeId: String, fileId: String, fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
+    implicit request =>
+      ???
+  }
+
+  def deleteInProgressFile(envelopeId: String, fileId: String, fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
+    implicit request =>
+      ???
   }
 }

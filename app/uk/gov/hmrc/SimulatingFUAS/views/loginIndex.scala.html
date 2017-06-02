@@ -1,6 +1,5 @@
 @(userLoginForm: Form[uk.gov.hmrc.SimulatingFUAS.models.User], continueUrl: String)(implicit request: Request[_], messages: Messages)
 
-
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend") {
 
     <header class="page-header">
@@ -40,7 +39,7 @@
                 value="@userLoginForm("password").value"
                 class="form-control form-control--block"
                 required
-                >
+                />
             </label>
         </fieldset>
 

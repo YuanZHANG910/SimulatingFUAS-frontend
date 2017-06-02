@@ -7,6 +7,7 @@ import uk.gov.hmrc.play.frontend.controller.FrontendController
 import play.api.Play.current
 import play.api.data.Form
 import uk.gov.hmrc.SimulatingFUAS.models.{AuthorisingAuth, Forms, User}
+import uk.gov.hmrc.SimulatingFUAS.views.html._
 
 import scala.concurrent.Future
 
@@ -19,13 +20,13 @@ object LoginController extends Controller with FrontendController {
 
   def loginPage(continueUrl: String): Action[AnyContent] = Action.async {
     implicit request => {
-      Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.loginIndex(userLoginForm, continueUrl)(request, applicationMessages)))
+      Future.successful(Ok(loginIndex(userLoginForm, continueUrl)(request, applicationMessages)))
     }
   }
 
   def about: Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
-      Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.about()(request, applicationMessages)).withHeaders())
+      Future.successful(Ok(about_app()(request, applicationMessages)).withHeaders())
   }
 
   def check(continueUrl: String) = Action {
@@ -46,7 +47,7 @@ object LoginController extends Controller with FrontendController {
       run
     } else {
       val formWithError = userLoginForm.withGlobalError("Please check and re-enter your user name and password")
-      Ok(uk.gov.hmrc.SimulatingFUAS.views.html.loginIndex(formWithError, continueUrl)(request, applicationMessages))
+      Ok(loginIndex(formWithError, continueUrl)(request, applicationMessages))
     }
   }
 
@@ -62,11 +63,9 @@ object LoginController extends Controller with FrontendController {
       }
     }
 
-  private def hasValidToken(furtherActionWithToken: => Future[Result])(furtherActionWithoutToken: => Future[Result])(implicit request: RequestHeader): Future[Result] = {
-    if (auth.checkToken) {
-      furtherActionWithToken
-    } else {
-      furtherActionWithoutToken
-    }
+  private def hasValidToken(furtherActionWithToken: => Future[Result])(furtherActionWithoutToken: => Future[Result])
+                           (implicit request: RequestHeader): Future[Result] = {
+    if (auth.checkToken) furtherActionWithToken
+    else furtherActionWithoutToken
   }
 }
