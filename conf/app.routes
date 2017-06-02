@@ -10,11 +10,14 @@ GET     /envelopes                  uk.gov.hmrc.SimulatingFUAS.controllers.Envel
 GET     /envelopesInf               uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInf
 GET     /envelopesInf/:id           uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInfR(id: String, inf: String)
 GET     /envelopesInfRE/:id         uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInfRE(id: String)
-GET     /envelopesEve               uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeEve(id: String)
+GET     /envelopesEve/:id           uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeEve(id: String)
 
 GET     /replay                     uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.replay(id: String, inf: String)
 
 GET     /files                      uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.main
+GET     /files/scan                 uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.scan(envelopeId: String, fileId: String, fileRef: String)
+GET     /files/move                 uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.move(envelopeId: String, fileId: String, fileRef: String)
+GET     /files/deleteInProgressFile uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.deleteInProgressFile(envelopeId: String, fileId: String, fileRef: String)
 
 GET     /CreateAnEnvelope           uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.callCreateAnEnvelope
 POST    /upLoadFiles/:eld/          uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.upLoadingFiles(eld:String)

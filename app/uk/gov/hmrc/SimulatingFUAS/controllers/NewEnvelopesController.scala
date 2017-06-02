@@ -8,11 +8,9 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
 import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController._
+import uk.gov.hmrc.SimulatingFUAS.views.html.envelope_views._
 
-
-object NewEnvelopesController extends NewEnvelopesController
-
-trait NewEnvelopesController extends Controller with FrontendController {
+object NewEnvelopesController extends Controller with FrontendController {
   val frontConnector = FrontConnector
   val backConnector = BackConnector
 
@@ -22,13 +20,13 @@ trait NewEnvelopesController extends Controller with FrontendController {
         resultFromBackEnd =>
           val t = resultFromBackEnd.split("/").toList
           val envelopeId = t.last
-          Ok(uk.gov.hmrc.SimulatingFUAS.views.html.got_envelopes_id(envelopeId)(request, applicationMessages))
+          Ok(got_envelopes_id(envelopeId)(request, applicationMessages))
       }
   }
 
   def upLoadingFiles(eid:String): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
       frontConnector.upLoadFiles(eid, request.headers)(request.body.asMultipartFormData)
-      Future.successful(Ok(uk.gov.hmrc.SimulatingFUAS.views.html.got_envelopes_id(eid)(request, applicationMessages)))
+      Future.successful(Ok(got_envelopes_id(eid)(request, applicationMessages)))
   }
 }
