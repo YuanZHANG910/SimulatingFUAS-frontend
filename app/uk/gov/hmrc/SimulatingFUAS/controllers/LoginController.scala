@@ -43,9 +43,8 @@ object LoginController extends Controller with FrontendController {
 
   def checkAuth(name: String, password: String, loginForm: Form[User], continueUrl: String)
                (run: => Result)(implicit request: Request[AnyContent]): Result = {
-    if (auth.checkName(name: String, password: String)) {
-      run
-    } else {
+    if (auth.checkName(name: String, password: String)) run
+    else {
       val formWithError = userLoginForm.withGlobalError("Please check and re-enter your user name and password")
       Ok(loginIndex(formWithError, continueUrl)(request, applicationMessages))
     }

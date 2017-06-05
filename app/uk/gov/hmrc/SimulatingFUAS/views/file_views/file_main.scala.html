@@ -13,12 +13,11 @@
 
       <thead>
         <tr>
-          <th>Envelope ID</th>
-          <th>File ID</th>
-          <th>File Ref</th>
-          <th>Started At</th>
-          <th>    </th>
-          <th></th>
+          <th><span>Envelope ID</span></th>
+          <th><span>File ID</span></th>
+          <th><span>File Ref</span></th>
+          <th><span>Started At</span></th>
+          <th><span>Operations</span></th>
         </tr>
       </thead>
 
@@ -30,24 +29,20 @@
                     @file.EnvelopeID
                   </a>
                 </td>
-                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp@file.FileID &nbsp&nbsp&nbsp</td>
-                <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp@file.FileRef &nbsp&nbsp&nbsp</td>
+                <td>@file.FileID</td>
+                <td>@file.FileRef</td>
                 <td>
                   <script language="JavaScript">document.write(new Date(@file.startedAt).toGMTString());</script>
                 </td>
                 <td>
+                  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController.deleteInProgressFile(file.FileRef)">
+                    <input class="button" type="submit" style="width:110px;white-space: nowrap;" value="Delete"/>
+                  </a>
                   <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController.scan(file.EnvelopeID, file.FileID, file.FileRef)">
-                    <input type="button" style="width:110px;" value="Rescan"/>
+                    <input class="button" type="submit" style="width:110px;white-space: nowrap;" value="Rescan"/>
                   </a>
-                </td>
-                <td>
                   <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController.move(file.EnvelopeID, file.FileID, file.FileRef)">
-                    <input type="button" style="width:110px;" value="Move"/>
-                  </a>
-                </td>
-                <td>
-                  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController.deleteInProgressFile(file.EnvelopeID, file.FileID, file.FileRef)">
-                    <input type="button" style="width:110px;" value="Delete"/>
+                    <input class="button" type="submit" style="width:110px;white-space: nowrap;" value="Move"/>
                   </a>
                 </td>
             </tr>

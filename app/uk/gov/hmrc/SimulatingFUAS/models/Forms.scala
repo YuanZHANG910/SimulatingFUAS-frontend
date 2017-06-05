@@ -23,7 +23,3 @@ object Forms {
 case class FileInProgress(EnvelopeID: String, FileID: String, FileRef: String, startedAt: String)
 case class UserInput(input: String)
 case class User(name: String, password: String)
-
-object Main extends App {
-  println("dd")
-}

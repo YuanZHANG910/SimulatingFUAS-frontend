@@ -35,6 +35,11 @@ object FilesController extends Controller with FrontendController  {
       }
   }
 
+  def deleteInProgressFile(fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
+    implicit request =>
+      ???
+  }
+
   def scan(envelopeId: String, fileId: String, fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
 
     ???
@@ -61,8 +66,4 @@ object FilesController extends Controller with FrontendController  {
       ???
   }
 
-  def deleteInProgressFile(envelopeId: String, fileId: String, fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
-    implicit request =>
-      ???
-  }
 }
