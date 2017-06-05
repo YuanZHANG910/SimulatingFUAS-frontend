@@ -3,18 +3,21 @@ package uk.gov.hmrc.SimulatingFUAS.supports
 import java.net.URLEncoder
 import java.nio.file.Paths
 
+import play.api.libs.json.{JsObject, Json}
 import play.api.mvc.{Headers, MultipartFormData}
 import uk.gov.hmrc.SimulatingFUAS.config.WSHttp
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost}
+import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost, HttpResponse}
+
+import scala.concurrent.Future
 
 object FrontConnector extends FrontConnector with ServicesConfig with ActionsSupport {
 
   lazy val Url: String = baseUrl("file-front")
   val http = WSHttp
+  val emptyJson: JsObject = Json.obj()
 
   def upLoadFiles(eId:String, requestHeader: Headers)(files: Option[MultipartFormData[play.api.libs.Files.TemporaryFile]])(implicit headerCarrier: HeaderCarrier): Unit = {
-
     for (file <- files.map(_.files).toList.head) {
       val path = Paths.get(file.ref.file.getAbsolutePath)
       val data = java.nio.file.Files.readAllBytes(path)
@@ -32,12 +35,12 @@ object FrontConnector extends FrontConnector with ServicesConfig with ActionsSup
     }
   }
 
-  def scan(envelopeId: String, fileId: String, fileRef: String)(implicit headerCarrier: HeaderCarrier): Unit = {
-
+  def scan(envelopeId: String, fileId: String, fileRef: String)(implicit headerCarrier: HeaderCarrier): Future[HttpResponse] = {
+    http.POST(s"$Url/admin/scan/envelopes/$envelopeId/files/$fileId/$fileRef", emptyJson)
   }
 
-  def move(envelopeId: String, fileId: String, fileRef: String)(implicit headerCarrier: HeaderCarrier): Unit = {
-
+  def moveToTransientStore(envelopeId: String, fileId: String, fileRef: String)(implicit headerCarrier: HeaderCarrier): Future[HttpResponse] = {
+    http.POST(s"$Url/admin/transfer/envelopes/$envelopeId/files/$fileId/$fileRef", emptyJson)
   }
 }
 

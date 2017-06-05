@@ -1,4 +1,5 @@
 @import uk.gov.hmrc.SimulatingFUAS.models.FileInProgress
+@import uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController._
 
 @(files: List[FileInProgress])(implicit request: Request[_], messages: Messages)
 
@@ -25,24 +26,24 @@
         @for(file <- files){
             <tr>
                 <td>
-                  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInfRE(file.EnvelopeID)">
-                    @file.EnvelopeID
+                  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInfRE(file.envelopeID)">
+                    @file.envelopeID
                   </a>
                 </td>
-                <td>@file.FileID</td>
-                <td>@file.FileRef</td>
+                <td>@file.fileID</td>
+                <td>@file.fileRef</td>
                 <td>
                   <script language="JavaScript">document.write(new Date(@file.startedAt).toGMTString());</script>
                 </td>
                 <td>
-                  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController.deleteInProgressFile(file.FileRef)">
-                    <input class="button" type="submit" style="width:110px;white-space: nowrap;" value="Delete"/>
+                  <a href="@deleteInProgressFile(file.fileRef)">
+                    <input class="button" type="submit" style="width:90px;" value="Delete"/>
                   </a>
-                  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController.scan(file.EnvelopeID, file.FileID, file.FileRef)">
-                    <input class="button" type="submit" style="width:110px;white-space: nowrap;" value="Rescan"/>
+                  <a href="@scan(file.envelopeID, file.fileID, file.fileRef)">
+                    <input class="button" type="submit" style="width:90px;" value="Rescan"/>
                   </a>
-                  <a href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.FilesController.move(file.EnvelopeID, file.FileID, file.FileRef)">
-                    <input class="button" type="submit" style="width:110px;white-space: nowrap;" value="Move"/>
+                  <a href="@moveToTransientStore(file.envelopeID, file.fileID, file.fileRef)">
+                    <input class="button" type="submit" style="width:90px;" value="Move"/>
                   </a>
                 </td>
             </tr>

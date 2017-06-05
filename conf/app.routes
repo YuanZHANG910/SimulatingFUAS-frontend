@@ -15,9 +15,9 @@ GET     /envelopesEve/:id           uk.gov.hmrc.SimulatingFUAS.controllers.Envel
 GET     /replay                     uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.replay(id: String, inf: String)
 
 GET     /files                      uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.main
-POST    /files/scan                 uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.scan(envelopeId: String, fileId: String, fileRef: String)
-POST    /files/move                 uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.move(envelopeId: String, fileId: String, fileRef: String)
-DELETE  /files/deleteInProgressFile uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.deleteInProgressFile(fileRef: String)
+GET     /files/scan                 uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.scan(envelopeId: String, fileId: String, fileRef: String)
+GET     /files/move                 uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.moveToTransientStore(envelopeId: String, fileId: String, fileRef: String)
+GET     /files/deleteInProgressFile uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.deleteInProgressFile(fileRef: String)
 
 GET     /CreateAnEnvelope           uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.callCreateAnEnvelope
 POST    /upLoadFiles/:eld/          uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.upLoadingFiles(eld:String)

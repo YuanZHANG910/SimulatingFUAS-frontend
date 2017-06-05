@@ -16,12 +16,14 @@ object FilesController extends Controller with FrontendController  {
   val frontConnector = FrontConnector
   val backConnector = BackConnector
 
-  val main: Action[AnyContent] = securedAction[AnyContent] {
+  var files: List[FileInProgress] = List.empty
+
+  def main(): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
 
-      backConnector.loadFiles.map {
+      backConnector.loadInProgressFiles.map {
         resultFromBackEnd =>
-          var files: List[FileInProgress] = List.empty
+          files = List.empty
           val envelopeId = resultFromBackEnd.\\("envelopeId").map(_.as[String]).toList
           val fileId = resultFromBackEnd.\\("fileId").map(_.as[String]).toList
           val fileRef = resultFromBackEnd.\\("_id").map(_.as[String]).toList
@@ -37,33 +39,29 @@ object FilesController extends Controller with FrontendController  {
 
   def deleteInProgressFile(fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
-      ???
+      backConnector.deleteInProgressFile(fileRef).map {
+        resultFromBackEnd =>
+          val newFiles = files.filter( file => file.fileRef != fileRef)
+          Ok(file_main(newFiles)(request, applicationMessages)).withHeaders()
+      }
   }
 
   def scan(envelopeId: String, fileId: String, fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
-
-    ???
-//    implicit request =>
-
-//      frontConnector.scan(envelopeId, fileId, fileRef).map {
-//        resultFromFrontEnd =>
-//          var files: List[FileInProgress] = List.empty
-//          val envelopeId = resultFromBackEnd.\\("envelopeId").map(_.as[String]).toList
-//          val fileId = resultFromBackEnd.\\("fileId").map(_.as[String]).toList
-//          val fileRef = resultFromBackEnd.\\("_id").map(_.as[String]).toList
-//          val startedAt = resultFromBackEnd.\\("startedAt").map(_.as[Long]).toList
-//
-//          for (i <- envelopeId.indices) {
-//            files = files :+ FileInProgress(envelopeId(i), fileId(i), fileRef(i), startedAt(i).toString)
-//          }
-//
-//          Ok(uk.gov.hmrc.SimulatingFUAS.views.html.file_main(files)(request, applicationMessages)).withHeaders()
-//      }
+    implicit request =>
+      frontConnector.scan(envelopeId, fileId, fileRef).map {
+        resultFromFrontEnd =>
+          val newFiles = files.filter( file => file.fileRef != fileRef)
+          Ok(file_main(newFiles)(request, applicationMessages)).withHeaders()
+      }
   }
 
-  def move(envelopeId: String, fileId: String, fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
+  def moveToTransientStore(envelopeId: String, fileId: String, fileRef: String): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
-      ???
+      frontConnector.moveToTransientStore(envelopeId, fileId, fileRef).map {
+        resultFromFrontEnd =>
+          val newFiles = files.filter( file => file.fileRef != fileRef)
+          Ok(file_main(newFiles)(request, applicationMessages)).withHeaders()
+      }
   }
 
 }

@@ -9,13 +9,11 @@
   serviceInfoContent: Html = HtmlFormat.empty,
   scriptElem: Option[Html] = None)(implicit request: Request[_], messages: Messages)
 
-@import layouts.{govuk_template => hmrcGovUkTemplate}
-@import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
-@import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
+@import layouts.govuk_template
+@import uk.gov.hmrc.play.views.html.{layouts, helpers}
 
 @head = {
-    @uiLayouts.head(
-      assetsPrefix = appConfig.assetsPrefix,
+    @layouts.head(
       linkElem = None,
       headScripts = None)
     <meta name="format-detection" content="telephone=no" />
@@ -27,7 +25,7 @@
 }
 
 @insideHeader = {
-    @uiLayouts.header_nav(
+    @layouts.header_nav(
       navTitle = Some("SimulatingFUAS-frontend"),
       navTitleLink = None,
       showBetaLink = false,
@@ -37,10 +35,9 @@
 @afterHeader = {}
 
 @bodyEnd = {
-    @uiLayouts.footer(
+    @layouts.footer(
       analyticsToken = Some(appConfig.analyticsToken),
       analyticsHost = appConfig.analyticsHost,
-      assetsPrefix = appConfig.assetsPrefix,
       ssoUrl = None,
       scriptElem = scriptElem,
       gaCalls = None)
@@ -50,7 +47,7 @@
 @footerLinks = {}
 
 @serviceInfo = {
-    @uiLayouts.serviceInfo(
+    @layouts.serviceInfo(
       betaBanner = HtmlFormat.empty,
       includeGridWrapper = false,
       serviceInfoContent = Some(serviceInfoContent))
@@ -58,14 +55,14 @@
 
 @mainContentHeader = {
     @if(contentHeader.isDefined) {
-        @uiLayouts.main_content_header(contentHeader = contentHeader.get)
+        @layouts.main_content_header(contentHeader = contentHeader.get)
     }
 }
 
-@getHelpForm = @{uiHelpers.reportAProblemLink(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
+@getHelpForm = @{helpers.reportAProblemLink(appConfig.reportAProblemPartialUrl, appConfig.reportAProblemNonJSUrl)}
 
 @content = {
-    @uiLayouts.main_content(
+    @layouts.main_content(
       article = mainContent,
       mainClass = mainClass,
       mainDataAttributes = mainDataAttributes,
@@ -75,4 +72,4 @@
       sidebar = sidebar)
 }
 
-@hmrcGovUkTemplate(Some(title), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(uiLayouts.footer_links()), true)(content)
+@govuk_template(Some(title), bodyClasses)(head, bodyEnd, insideHeader, afterHeader, footerTop, Some(layouts.footer_links()), true)(content)
