@@ -5,18 +5,17 @@ import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.libs.json.Json
 import play.api.mvc.{Action, AnyContent, Controller}
-import uk.gov.hmrc.SimulatingFUAS.models.{Forms, UserInput}
-import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
 import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController._
-import uk.gov.hmrc.play.frontend.controller.FrontendController
+import uk.gov.hmrc.SimulatingFUAS.models.{Forms, UserInput}
+import uk.gov.hmrc.SimulatingFUAS.supports.BackConnector
 import uk.gov.hmrc.SimulatingFUAS.views.html.envelope_views._
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 
 object EnvelopeController extends Controller with FrontendController {
-  val frontConnector = FrontConnector
-  val backConnector = BackConnector
 
+  val backConnector = BackConnector
   val inputEnvelopesId : Form[UserInput] = Forms.inputEnvelopesId
 
   val main: Action[AnyContent] = securedAction[AnyContent] {

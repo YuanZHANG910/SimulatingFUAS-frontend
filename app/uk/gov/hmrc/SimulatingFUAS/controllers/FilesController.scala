@@ -50,6 +50,10 @@ object FilesController extends Controller with FrontendController  {
     implicit request =>
       frontConnector.scan(envelopeId, fileId, fileRef).map {
         resultFromFrontEnd =>
+          println()
+          println(resultFromFrontEnd)
+          println()
+          println()
           val newFiles = files.filter( file => file.fileRef != fileRef)
           Ok(file_main(newFiles)(request, applicationMessages)).withHeaders()
       }

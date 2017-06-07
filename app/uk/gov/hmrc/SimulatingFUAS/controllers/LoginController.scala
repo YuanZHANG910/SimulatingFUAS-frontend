@@ -16,6 +16,7 @@ object LoginController extends Controller with FrontendController {
 
   val auth:AuthorisingAuth = new AuthorisingAuth
   val userLoginForm: Form[User] = Forms.userLoginForm
+
   implicit val anyContentBodyParser: BodyParser[AnyContent] = parse.anyContent
 
   def loginPage(continueUrl: String): Action[AnyContent] = Action.async {
