@@ -10,6 +10,10 @@
 
     </thead>
     <tbody>
+      <tr>
+        <td><h3>Team Name</h3></td>
+        <td><h3></h3></td>
+      </tr>
     @serverDetails.map { name =>
     <tr>
       <td><h3>@name</h3></td>
@@ -19,5 +23,7 @@
     </tbody>
   </table>
 
+  <div><a class="button" href="@routes.LoginController.getRepoList()">List by repos</a></div>
+  </br>
   <div><a class="button" href="@routes.LoginController.getAddAService()">Add another Service</a></div>
 }

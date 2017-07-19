@@ -1,5 +1,6 @@
 package uk.gov.hmrc.SimulatingFUAS.controllers
 
+import com.github.nscala_time.time.Imports._
 import play.api.Logger
 import play.api.Play.current
 import play.api.data.Form
@@ -13,7 +14,7 @@ import uk.gov.hmrc.play.frontend.controller.FrontendController
 import scala.concurrent.Future
 import scala.io.Source
 
-case class RepoDetails(repoName: String, serviceName: String, version: String, link: String)
+case class RepoDetails(repoName: String, serviceName: String, version: String, deployDate: DateTime, link: String)
 
 object LoginController extends Controller with FrontendController {
 
@@ -24,21 +25,21 @@ object LoginController extends Controller with FrontendController {
   implicit val anyContentBodyParser: BodyParser[AnyContent] = parse.anyContent
 
   val serviceDetailsList: Seq[RepoDetails] = Seq(
-    RepoDetails("agent-fi-agent-frontend", "Agents", "1.0.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
-    RepoDetails("agent-fi-agent-frontend", "Agents", "0.9.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
-    RepoDetails("agent-fi-agent-frontend", "Agents", "0.8.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
-    RepoDetails("agent-fi-agent-frontend", "Agents", "0.7.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
-    RepoDetails("fhdds-frontend", "FHDDS", "0.6.0", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
-    RepoDetails("fhdds-frontend", "FHDDS", "0.5.0", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
-    RepoDetails("fhdds-frontend", "FHDDS", "0.4.0", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
-    RepoDetails("soft-drinks-industry-levy", "Soft Drinks Industry Levy", "3.2.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy/master/README.md"),
-    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.7.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
-    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.6.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
-    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.5.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
-    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.4.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
-    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.3.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
-    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.2.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
-    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.1.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md")
+    RepoDetails("agent-fi-agent-frontend", "Agents", "1.0.0", new DateTime("2017-07-09"), "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+    RepoDetails("agent-fi-agent-frontend", "Agents", "0.9.0", new DateTime("2017-07-1"), "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+    RepoDetails("agent-fi-agent-frontend", "Agents", "0.8.0", new DateTime("2017-06-09"), "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+    RepoDetails("agent-fi-agent-frontend", "Agents", "0.7.0", new DateTime("2017-05-19"), "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+    RepoDetails("fhdds-frontend", "FHDDS", "0.6.0", new DateTime("2017-07-14"), "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
+    RepoDetails("fhdds-frontend", "FHDDS", "0.5.0", new DateTime("2017-07-09"), "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
+    RepoDetails("fhdds-frontend", "FHDDS", "0.4.0", new DateTime("2017-06-29"), "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy", "Soft Drinks Industry Levy", "3.2.0", new DateTime("2017-07-19"), "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.7.0", new DateTime("2017-07-07"), "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.6.0", new DateTime("2017-07-05"), "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.5.0", new DateTime("2017-07-03"), "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.4.0", new DateTime("2017-06-29"), "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.3.0", new DateTime("2017-06-19"), "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.2.0", new DateTime("2017-06-09"), "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.1.0", new DateTime("2017-06-05"), "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md")
   )
 
   def getAddAService: Action[AnyContent] = Action.async { implicit request =>
@@ -67,6 +68,15 @@ object LoginController extends Controller with FrontendController {
     val releaseInfo = Source.fromURL(serviceLink).getLines()
 
     Future.successful(Ok(get_release_note(releaseInfo, serviceName)))
+  }
+
+  def getRepoList: Action[AnyContent] = Action.async { implicit request ⇒
+    val repoNameList = serviceDetailsList.map(_.repoName).distinct
+    val filteredRepos = serviceDetailsList.groupBy(_.repoName)
+    val latestReleases = repoNameList.map { name ⇒
+      filteredRepos(name).maxBy(_.deployDate)
+    }
+    Future.successful(Ok(repo_list(latestReleases)))
   }
 
   def loginPage(continueUrl: String): Action[AnyContent] = Action.async {

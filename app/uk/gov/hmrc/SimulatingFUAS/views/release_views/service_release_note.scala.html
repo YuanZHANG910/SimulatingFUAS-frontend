@@ -18,7 +18,7 @@
         <td><h2>Release Number</h2></td>
         <td><h2>Release Notes</h2></td>
       </tr>
-      @serverDetails.map { case RepoDetails(repoName, serviceName, version, link) =>
+      @serverDetails.map { case RepoDetails(repoName, serviceName, version, date, link) =>
       <tr>
         <td><h3>@repoName</h3></td>
         <td><h3>@version</h3></td>

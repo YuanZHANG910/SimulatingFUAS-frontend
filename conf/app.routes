@@ -11,6 +11,7 @@ POST        /add-a-service                             uk.gov.hmrc.SimulatingFUA
 GET         /service-list                              uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.getServiceList
 GET         /service-release-notes/:serviceName        uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.getServiceReleaseNotes(serviceName:String)
 GET         /get-repo-release-notes/:repoName          uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.getRepoReleaseNotes(repoName: String)
+GET         /repo-list/                                uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.getRepoList
 
 GET         /                                          uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main
 GET         /envelopes                                 uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main

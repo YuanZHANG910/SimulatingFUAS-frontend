@@ -1,0 +1,34 @@
+@import uk.gov.hmrc.SimulatingFUAS.controllers.routes
+@import uk.gov.hmrc.SimulatingFUAS.controllers.RepoDetails
+
+@(serverDetails: Seq[RepoDetails])(implicit request: Request[_], messages: Messages)
+
+@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hackathon Release Notes", mainClass = Some("full-width")) {
+  <h2>Release Notes</h2>
+
+  <table>
+    <thead>
+
+    </thead>
+    <tbody>
+      <tr>
+        <td><h3>Repo Name</h3></td>
+        <td><h3>Latest Release</h3></td>
+        <td><h3>Date Deployed</h3></td>
+        <td><h3>Notes</h3></td>
+      </tr>
+      @serverDetails.map { case RepoDetails(repoName, serviceName, version, deployDate, link) =>
+        <tr>
+          <td><h3>@repoName</h3></td>
+          <td><h3>@version</h3></td>
+          <td><h3>@deployDate.toLocalDate</h3></td>
+          <td><h3><a href="@routes.LoginController.getRepoReleaseNotes(repoName)">View</a></h3></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div><a class="button" href="@routes.LoginController.getServiceList()">List by Service</a></div>
+  </br>
+  <div><a class="button" href="@routes.LoginController.getAddAService()">Add another Service</a></div>
+}
