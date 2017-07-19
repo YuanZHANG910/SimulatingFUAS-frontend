@@ -6,6 +6,7 @@ POST    /check                      uk.gov.hmrc.SimulatingFUAS.controllers.Login
 GET     /about                      uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.about
 
 GET     /release-note               uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.release
+GET     /get-release-note           uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.releaseNote
 
 GET     /                           uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main
 GET     /envelopes                  uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main

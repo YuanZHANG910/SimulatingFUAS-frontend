@@ -19,6 +19,13 @@ object Forms {
       "input" -> nonEmptyText
     )(UserInput.apply)(UserInput.unapply))
 
+  val releaseForm = Form (
+    mapping (
+      "url" -> nonEmptyText,
+      "name" -> nonEmptyText
+    )
+    (ReleaseNote.apply)(ReleaseNote.unapply)
+  )
 }
 
 case class FileInProgress(envelopeID: String, fileID: String, fileRef: String, startedAt: String)
@@ -46,3 +53,4 @@ object FileInProgress {
 
 case class UserInput(input: String)
 case class User(name: String, password: String)
+case class ReleaseNote(url: String, name: String)

@@ -1,26 +1,45 @@
 package uk.gov.hmrc.SimulatingFUAS.controllers
 
+import java.net.URI
+
 import play.api.Logger
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.controller.FrontendController
 import play.api.Play.current
 import play.api.data.Form
-import uk.gov.hmrc.SimulatingFUAS.models.{AuthorisingAuth, Forms, User}
+import uk.gov.hmrc.SimulatingFUAS.models.{AuthorisingAuth, Forms, ReleaseNote, User}
 import uk.gov.hmrc.SimulatingFUAS.views.html._
 
 import scala.concurrent.Future
+import scala.io.Source
 
 
 object LoginController extends Controller with FrontendController {
 
   val auth:AuthorisingAuth = new AuthorisingAuth
   val userLoginForm: Form[User] = Forms.userLoginForm
+  val releaseForm: Form[ReleaseNote] = Forms.releaseForm
 
   implicit val anyContentBodyParser: BodyParser[AnyContent] = parse.anyContent
 
   def release: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(release_note()))
+    Future.successful(Ok(release_note(releaseForm)))
+  }
+
+  def releaseNote: Action[AnyContent] = Action.async { implicit request =>
+    val testList: Seq[(String, String)] = Seq(
+      ("agent-fi-agent-frontend", "http://github.com/hmrc/agent-fi-agent-frontend/blob/master/README.md"),
+      ("fhdds-frontend", "http://github.com/hmrc/fhdds-frontend/blob/master/README.md"),
+      ("soft-drinks-industry-levy", "http://github.com/hmrc/soft-drinks-industry-levy/blob/master/README.md")
+    )
+    Future.successful(Ok(get_release_note(testList)))
+  }
+
+  def showServiceNotes(serviceLink: URI) = Action.async { implicit request ⇒
+    val releaseInfo = Source.fromURI(serviceLink).mkString
+
+    Future.successful(Ok(get_release_note(releaseInfo)))
   }
 
   def loginPage(continueUrl: String): Action[AnyContent] = Action.async {

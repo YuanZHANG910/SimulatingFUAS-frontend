@@ -1,7 +1,46 @@
-@()(implicit request: Request[_], messages: Messages)
+@(releaseForm: Form[uk.gov.hmrc.SimulatingFUAS.models.ReleaseNote])(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend", mainClass = Some("full-width")) {
 
   <h3>Release Notes</h3>
-  <h3></h3>
+  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.releaseNote()) {
+
+    @releaseForm.globalError.map { error =>
+      <div class="flash error-summary error-summary--show">
+        @error.message
+      </div>
+    }
+
+    @helper.CSRF.formField
+    <fieldset class="form-field-group">
+      <label for="url">
+        URL:
+        <input
+        type="text"
+        name="url"
+        id="url"
+        value="@releaseForm("url").value"
+        class="form-control form-control--block"
+        required
+        >
+      </label>
+    </fieldset>
+
+    <fieldset class="form-field-group">
+      <label for="name">
+        Service Name:
+        <input
+        type="text"
+        name="name"
+        id="name"
+        value="@releaseForm("name").value"
+        class="form-control form-control--block"
+        required
+        />
+      </label>
+    </fieldset>
+
+    <input type="submit" class="button" value="Save and continue" />
+
+  }
 }
