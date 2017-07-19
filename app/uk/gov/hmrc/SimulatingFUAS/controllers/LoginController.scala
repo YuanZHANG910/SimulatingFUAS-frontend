@@ -23,21 +23,28 @@ object LoginController extends Controller with FrontendController {
 
   implicit val anyContentBodyParser: BodyParser[AnyContent] = parse.anyContent
 
-  def release: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(release_note(releaseForm)))
+  def getAddAService: Action[AnyContent] = Action.async { implicit request =>
+    Future.successful(Ok(add_a_service(releaseForm)))
   }
 
-  def releaseNote: Action[AnyContent] = Action.async { implicit request =>
+  def getServiceList: Action[AnyContent] = Action.async { implicit request =>
     val testList: Seq[(String, String)] = Seq(
       ("agent-fi-agent-frontend", "http://github.com/hmrc/agent-fi-agent-frontend/blob/master/README.md"),
       ("fhdds-frontend", "http://github.com/hmrc/fhdds-frontend/blob/master/README.md"),
       ("soft-drinks-industry-levy", "http://github.com/hmrc/soft-drinks-industry-levy/blob/master/README.md")
     )
-    Future.successful(Ok(get_release_note(testList)))
+    Future.successful(Ok(service_list(testList)))
   }
 
-  def showServiceNotes(serviceLink: URI) = Action.async { implicit request ⇒
-    val releaseInfo = Source.fromURI(serviceLink).mkString
+  def getServiceNotes(serviceLink: String) = Action.async { implicit request ⇒
+    val releaseInfo = Source.fromURI(new URI(serviceLink)).mkString
+    println()
+    println()
+    println(serviceLink)
+    println()
+    println()
+    println()
+    println()
 
     Future.successful(Ok(get_release_note(releaseInfo)))
   }

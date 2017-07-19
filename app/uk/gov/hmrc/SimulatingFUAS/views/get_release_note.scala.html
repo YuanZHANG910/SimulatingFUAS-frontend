@@ -1,20 +1,7 @@
-@(serverDetails: Seq[(String, String)])(implicit request: Request[_], messages: Messages)
+@(serverDetails: String)(implicit request: Request[_], messages: Messages)
 
-@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend", mainClass = Some("full-width")) {
+@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hackathon Release Notes", mainClass = Some("full-width")) {
 
-  <h3>Release Notes</h3>
-
-  <table>
-    <thead>
-
-    </thead>
-    <tbody>
-      @serverDetails.map { case (name, link) =>
-        <tr>
-          <td>@name</td>
-          <td><a href="@link">Notes</a></td>
-        </tr>
-      }
-    </tbody>
-  </table>
+  <h3>Server Notes</h3>
+      @serverDetails
 }
