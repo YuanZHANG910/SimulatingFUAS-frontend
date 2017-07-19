@@ -6,7 +6,8 @@ POST        /check                                uk.gov.hmrc.SimulatingFUAS.con
 GET         /about                                uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.about
 
 GET         /add-a-service                        uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.getAddAService
-GET         /servie-list                          uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.getServiceList
+POST        /add-a-service                        uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.submitAddAService
+GET         /service-list                         uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.getServiceList
 GET         /get-release-note/:serviceLink        uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.getServiceNotes(serviceLink: String)
 
 GET         /                                     uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main

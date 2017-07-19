@@ -27,24 +27,21 @@ object LoginController extends Controller with FrontendController {
     Future.successful(Ok(add_a_service(releaseForm)))
   }
 
+  def submitAddAService: Action[AnyContent] = Action.async { implicit request =>
+    Future successful Redirect(routes.LoginController.getAddAService())
+  }
+
   def getServiceList: Action[AnyContent] = Action.async { implicit request =>
     val testList: Seq[(String, String)] = Seq(
-      ("agent-fi-agent-frontend", "http://github.com/hmrc/agent-fi-agent-frontend/blob/master/README.md"),
-      ("fhdds-frontend", "http://github.com/hmrc/fhdds-frontend/blob/master/README.md"),
-      ("soft-drinks-industry-levy", "http://github.com/hmrc/soft-drinks-industry-levy/blob/master/README.md")
+      ("agent-fi-agent-frontend", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+      ("fhdds-frontend", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
+      ("soft-drinks-industry-levy", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy/master/README.md")
     )
     Future.successful(Ok(service_list(testList)))
   }
 
-  def getServiceNotes(serviceLink: String) = Action.async { implicit request ⇒
-    val releaseInfo = Source.fromURI(new URI(serviceLink)).mkString
-    println()
-    println()
-    println(serviceLink)
-    println()
-    println()
-    println()
-    println()
+  def getServiceNotes(serviceLink: String): Action[AnyContent] = Action.async { implicit request ⇒
+    val releaseInfo = Source.fromURL(serviceLink).mkString
 
     Future.successful(Ok(get_release_note(releaseInfo)))
   }

@@ -3,7 +3,7 @@
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hackathon Release Notes", mainClass = Some("full-width")) {
 
   <h3>Release Notes</h3>
-  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.getServiceList()) {
+  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.submitAddAService()) {
 
     @releaseForm.globalError.map { error =>
       <div class="flash error-summary error-summary--show">
