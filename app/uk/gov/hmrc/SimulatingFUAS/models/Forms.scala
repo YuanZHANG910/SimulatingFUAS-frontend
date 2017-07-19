@@ -54,3 +54,4 @@ object FileInProgress {
 case class UserInput(input: String)
 case class User(name: String, password: String)
 case class ReleaseNote(url: String, name: String)
+case class ServiceDetails(name: String, version: String, link: String)

@@ -1,15 +1,14 @@
 package uk.gov.hmrc.SimulatingFUAS.controllers
 
-import java.net.URI
-
 import play.api.Logger
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc._
-import uk.gov.hmrc.play.frontend.controller.FrontendController
 import play.api.Play.current
 import play.api.data.Form
-import uk.gov.hmrc.SimulatingFUAS.models.{AuthorisingAuth, Forms, ReleaseNote, User}
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc._
+import uk.gov.hmrc.SimulatingFUAS.models._
 import uk.gov.hmrc.SimulatingFUAS.views.html._
+import uk.gov.hmrc.SimulatingFUAS.views.html.release_views._
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 import scala.io.Source
@@ -28,20 +27,20 @@ object LoginController extends Controller with FrontendController {
   }
 
   def submitAddAService: Action[AnyContent] = Action.async { implicit request =>
-    Future successful Redirect(routes.LoginController.getAddAService())
+    Future successful Redirect(routes.LoginController.getServiceList())
   }
 
   def getServiceList: Action[AnyContent] = Action.async { implicit request =>
-    val testList: Seq[(String, String)] = Seq(
-      ("agent-fi-agent-frontend", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
-      ("fhdds-frontend", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
-      ("soft-drinks-industry-levy", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy/master/README.md")
+    val testList: Seq[ServiceDetails] = Seq(
+      ServiceDetails("agent-fi-agent-frontend", "1.0.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+      ServiceDetails("fhdds-frontend", "1.1.0", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
+      ServiceDetails("soft-drinks-industry-levy", "1.2.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy/master/README.md")
     )
     Future.successful(Ok(service_list(testList)))
   }
 
   def getServiceNotes(serviceLink: String): Action[AnyContent] = Action.async { implicit request ⇒
-    val releaseInfo = Source.fromURL(serviceLink).mkString
+    val releaseInfo = Source.fromURL(serviceLink).getLines()
 
     Future.successful(Ok(get_release_note(releaseInfo)))
   }
