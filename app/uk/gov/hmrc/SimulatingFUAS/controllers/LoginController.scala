@@ -19,6 +19,10 @@ object LoginController extends Controller with FrontendController {
 
   implicit val anyContentBodyParser: BodyParser[AnyContent] = parse.anyContent
 
+  def release: Action[AnyContent] = Action.async { implicit request =>
+    Future.successful(Ok(release_note()))
+  }
+
   def loginPage(continueUrl: String): Action[AnyContent] = Action.async {
     implicit request => {
       Future.successful(Ok(loginIndex(userLoginForm, continueUrl)(request, applicationMessages)))

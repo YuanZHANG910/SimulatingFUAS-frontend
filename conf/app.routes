@@ -5,6 +5,8 @@ GET     /login                      uk.gov.hmrc.SimulatingFUAS.controllers.Login
 POST    /check                      uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.check(continueUrl: String)
 GET     /about                      uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.about
 
+GET     /release-note               uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.release
+
 GET     /                           uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main
 GET     /envelopes                  uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main
 GET     /envelopesInf               uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInf
