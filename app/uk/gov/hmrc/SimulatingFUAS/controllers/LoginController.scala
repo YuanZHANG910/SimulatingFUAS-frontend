@@ -5,7 +5,7 @@ import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc._
-import uk.gov.hmrc.SimulatingFUAS.models._
+import uk.gov.hmrc.SimulatingFUAS.models.{AuthorisingAuth, Forms, ReleaseNote, User}
 import uk.gov.hmrc.SimulatingFUAS.views.html._
 import uk.gov.hmrc.SimulatingFUAS.views.html.release_views._
 import uk.gov.hmrc.play.frontend.controller.FrontendController
@@ -13,14 +13,33 @@ import uk.gov.hmrc.play.frontend.controller.FrontendController
 import scala.concurrent.Future
 import scala.io.Source
 
+case class RepoDetails(repoName: String, serviceName: String, version: String, link: String)
 
 object LoginController extends Controller with FrontendController {
 
-  val auth:AuthorisingAuth = new AuthorisingAuth
+  val auth: AuthorisingAuth = new AuthorisingAuth
   val userLoginForm: Form[User] = Forms.userLoginForm
   val releaseForm: Form[ReleaseNote] = Forms.releaseForm
 
   implicit val anyContentBodyParser: BodyParser[AnyContent] = parse.anyContent
+
+  val serviceDetailsList: Seq[RepoDetails] = Seq(
+    RepoDetails("agent-fi-agent-frontend", "Agents", "1.0.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+    RepoDetails("agent-fi-agent-frontend", "Agents", "0.9.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+    RepoDetails("agent-fi-agent-frontend", "Agents", "0.8.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+    RepoDetails("agent-fi-agent-frontend", "Agents", "0.7.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
+    RepoDetails("fhdds-frontend", "FHDDS", "0.6.0", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
+    RepoDetails("fhdds-frontend", "FHDDS", "0.5.0", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
+    RepoDetails("fhdds-frontend", "FHDDS", "0.4.0", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy", "Soft Drinks Industry Levy", "3.2.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.7.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.6.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.5.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.4.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.3.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.2.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md"),
+    RepoDetails("soft-drinks-industry-levy-frontend", "Soft Drinks Industry Levy", "2.1.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy-frontend/master/README.md")
+  )
 
   def getAddAService: Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok(add_a_service(releaseForm)))
@@ -31,18 +50,23 @@ object LoginController extends Controller with FrontendController {
   }
 
   def getServiceList: Action[AnyContent] = Action.async { implicit request =>
-    val testList: Seq[ServiceDetails] = Seq(
-      ServiceDetails("agent-fi-agent-frontend", "1.0.0", "https://raw.githubusercontent.com/hmrc/agent-fi-agent-frontend/master/README.md"),
-      ServiceDetails("fhdds-frontend", "1.1.0", "https://raw.githubusercontent.com/hmrc/fhdds-frontend/master/README.md"),
-      ServiceDetails("soft-drinks-industry-levy", "1.2.0", "https://raw.githubusercontent.com/hmrc/soft-drinks-industry-levy/master/README.md")
-    )
-    Future.successful(Ok(service_list(testList)))
+    val serviceNameList = serviceDetailsList.map(_.serviceName).distinct
+    Future.successful(Ok(service_list(serviceNameList)))
   }
 
-  def getServiceNotes(serviceLink: String): Action[AnyContent] = Action.async { implicit request ⇒
+  def getServiceReleaseNotes(serviceName: String): Action[AnyContent] = Action.async { implicit request =>
+    val ser = serviceDetailsList.filter(_.serviceName == serviceName)
+    Future.successful(Ok(service_release_note(ser)))
+  }
+
+  def getRepoReleaseNotes(repoName: String): Action[AnyContent] = Action.async { implicit request ⇒
+    val filteredList = serviceDetailsList.filter(_.repoName == repoName).head
+    val serviceLink = filteredList.link
+    val serviceName = filteredList.serviceName
+
     val releaseInfo = Source.fromURL(serviceLink).getLines()
 
-    Future.successful(Ok(get_release_note(releaseInfo)))
+    Future.successful(Ok(get_release_note(releaseInfo, serviceName)))
   }
 
   def loginPage(continueUrl: String): Action[AnyContent] = Action.async {
@@ -79,12 +103,14 @@ object LoginController extends Controller with FrontendController {
 
   def securedAction[T](furtherAction: Request[T] => Future[Result])(implicit bodyParser: BodyParser[T]): Action[T] =
     Action.async(bodyParser) { implicit request =>
-      hasValidToken{furtherAction(request)}{
+      hasValidToken {
+        furtherAction(request)
+      } {
         request.session.get("userName").map { userName =>
           Logger.info(s"Request ${request.method} ${request.uri} done by: $userName")
           furtherAction(request)
         }.getOrElse(
-            Future.successful(Redirect(routes.LoginController.loginPage(request.uri)))
+          Future.successful(Redirect(routes.LoginController.loginPage(request.uri)))
         )
       }
     }

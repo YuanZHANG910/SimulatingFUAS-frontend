@@ -21,8 +21,10 @@ object Forms {
 
   val releaseForm = Form (
     mapping (
+      "name" -> nonEmptyText,
       "url" -> nonEmptyText,
-      "name" -> nonEmptyText
+      "serversName" -> nonEmptyText,
+      "version" -> nonEmptyText
     )
     (ReleaseNote.apply)(ReleaseNote.unapply)
   )
@@ -53,5 +55,4 @@ object FileInProgress {
 
 case class UserInput(input: String)
 case class User(name: String, password: String)
-case class ReleaseNote(url: String, name: String)
-case class ServiceDetails(name: String, version: String, link: String)
+case class ReleaseNote(name: String, url: String, serversName: String, version: String)

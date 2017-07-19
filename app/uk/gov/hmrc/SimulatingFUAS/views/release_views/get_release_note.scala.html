@@ -1,14 +1,12 @@
-@(serverDetails: Iterator[String])(implicit request: Request[_], messages: Messages)
+@import uk.gov.hmrc.SimulatingFUAS.controllers.routes
+
+@(serverDetails: Iterator[String], serviceName: String)(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hackathon Release Notes", mainClass = Some("full-width")) {
+  <h3>Server Notes</h3>
 
-    <div class="padding-left-0">
-        <a href="@{uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.getServiceList()}">Back to Release List</a>
-    </div>
+  @serverDetails.map { line => <p>@line</p> }
 
-    <h3>Server Notes</h3>
-
-    @{serverDetails.map{ line ⇒
-        <p>{line}</p>
-    }}
+  <div><a class="back-link" href="@routes.LoginController.getServiceReleaseNotes(serviceName)">
+    Back</a></div>
 }

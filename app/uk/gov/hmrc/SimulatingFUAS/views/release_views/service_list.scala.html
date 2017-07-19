@@ -1,36 +1,23 @@
-@import uk.gov.hmrc.SimulatingFUAS.models.ServiceDetails
-@(serverDetails: Seq[ServiceDetails])(implicit request: Request[_], messages: Messages)
+@import uk.gov.hmrc.SimulatingFUAS.controllers.routes
+
+@(serverDetails: Seq[String])(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hackathon Release Notes", mainClass = Some("full-width")) {
-
-  <div class="padding-left-0">
-    <a href="@{
-      uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.getAddAService()
-    }">Add a new service</a>
-  </div>
-
   <h2>Release Notes</h2>
-
 
   <table>
     <thead>
 
     </thead>
     <tbody>
-      <tr>
-        <td><h2>Service Name</h2></td>
-        <td><h2>Latest Version</h2></td>
-        <td><h2>Release Note</h2></td>
-      </tr>
-    @serverDetails.map { case ServiceDetails(name, version, link) =>
+    @serverDetails.map { name =>
     <tr>
       <td><h3>@name</h3></td>
-      <td><h3>@version</h3></td>
-      <td><h3><a href="@{
-        uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.getServiceNotes(link)
-      }">Notes</a></h3></td>
+      <td><h3><a href="@routes.LoginController.getServiceReleaseNotes(name)">View</a></h3></td>
     </tr>
     }
     </tbody>
   </table>
+
+  <div><a class="button" href="@routes.LoginController.getAddAService()">Add another Service</a></div>
 }

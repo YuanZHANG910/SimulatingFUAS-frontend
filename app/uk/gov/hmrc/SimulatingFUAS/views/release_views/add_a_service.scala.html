@@ -12,9 +12,24 @@
     }
 
     @helper.CSRF.formField
+
+    <fieldset class="form-field-group">
+      <label for="name">
+        Repository Name:
+        <input
+        type="text"
+        name="name"
+        id="name"
+        value="@releaseForm("name").value"
+        class="form-control form-control--block"
+        required
+        />
+      </label>
+    </fieldset>
+
     <fieldset class="form-field-group">
       <label for="url">
-        URL:
+        Release Notes URL:
         <input
         type="text"
         name="url"
@@ -27,13 +42,27 @@
     </fieldset>
 
     <fieldset class="form-field-group">
-      <label for="name">
+      <label for="serversName">
         Service Name:
         <input
         type="text"
-        name="name"
-        id="name"
-        value="@releaseForm("name").value"
+        name="serversName"
+        id="serversName"
+        value="@releaseForm("serversName").value"
+        class="form-control form-control--block"
+        required
+        />
+      </label>
+    </fieldset>
+
+    <fieldset class="form-field-group">
+      <label for="name">
+        Release Version:
+        <input
+        type="text"
+        name="version"
+        id="version"
+        value="@releaseForm("version").value"
         class="form-control form-control--block"
         required
         />
