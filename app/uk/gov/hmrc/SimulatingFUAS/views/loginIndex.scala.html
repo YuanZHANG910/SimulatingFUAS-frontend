@@ -6,7 +6,7 @@
         <h1>Sign-in to file-upload admin interface</h1>
     </header>
 
-    @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.loginPage(continueUrl)) {
+    @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.LoginController.check(continueUrl)) {
 
         @userLoginForm.globalError.map { error =>
             <div class="flash error-summary error-summary--show">

@@ -7,11 +7,11 @@ import play.api.libs.json.{JsObject, Json}
 import play.api.mvc.{Headers, MultipartFormData}
 import uk.gov.hmrc.SimulatingFUAS.config.WSHttp
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost, HttpResponse}
+import uk.gov.hmrc.play.http.{HeaderCarrier, HttpResponse}
 
 import scala.concurrent.Future
 
-object FrontConnector extends FrontConnector with ServicesConfig with ActionsSupport {
+object FrontConnector extends ServicesConfig with ActionsSupport {
 
   lazy val Url: String = baseUrl("file-front")
   val http = WSHttp
@@ -46,9 +46,4 @@ object FrontConnector extends FrontConnector with ServicesConfig with ActionsSup
                           (implicit headerCarrier: HeaderCarrier): Future[HttpResponse] = {
     http.POST(s"$Url/admin/transfer/envelopes/$envelopeId/files/${URLEncoder.encode(fileId, java.nio.charset.StandardCharsets.UTF_8.toString)}/$fileRef", emptyJson)
   }
-}
-
-trait FrontConnector{
-  val Url: String
-  val http: HttpGet with HttpPost
 }

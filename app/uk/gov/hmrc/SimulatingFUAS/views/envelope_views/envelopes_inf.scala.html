@@ -1,11 +1,13 @@
+@import uk.gov.hmrc.SimulatingFUAS.controllers.routes
+
 @(id: String)(inf: String)(implicit request: Request[_], messages: Messages)
 
-@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hello from SimulatingFUAS-frontend", mainClass = Some("full-width")) {
+@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "SimulatingFUAS-frontend", mainClass = Some("full-width")) {
   @uk.gov.hmrc.SimulatingFUAS.views.html.main_base()
 
   <h3>Please enter an envelopes' id:</h3>
 
-  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInf) {
+  @helper.form(routes.EnvelopeController.loadEnvelopeInf) {
 
     @helper.CSRF.formField
 
@@ -23,13 +25,13 @@
     <h3>For the envelope:@id</h3>
 
     <p>
-      <a role="button" href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInfRE(id)">
+      <a role="button" href="@routes.EnvelopeController.loadEnvelopeInfRE(id)">
         <input class="button button--table" type="submit" style="width:210px;" value="Details"/>
       </a>
-      <a role="button" href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeEve(id)">
+      <a role="button" href="@routes.EnvelopeController.loadEnvelopeEve(id)">
         <input class="button button--table" type="submit" style="width:210px;" value="Events"/>
       </a>
-      <a role="button" href="@uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.replay(id, inf)">
+      <a role="button" href="@routes.EnvelopeController.replay(id, inf)">
         <input class="button button--table" type="submit" style="width:210px;" value="RePlay"/>
       </a>
     </p>

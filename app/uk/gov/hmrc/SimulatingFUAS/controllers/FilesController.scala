@@ -3,12 +3,11 @@ package uk.gov.hmrc.SimulatingFUAS.controllers
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Controller}
-import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.securedAction
-import uk.gov.hmrc.SimulatingFUAS.models.FileInProgress
 import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController._
+import uk.gov.hmrc.SimulatingFUAS.models.FileInProgress
 import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
 import uk.gov.hmrc.SimulatingFUAS.views.html.file_views._
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 
 object FilesController extends Controller with FrontendController  {
@@ -33,7 +32,7 @@ object FilesController extends Controller with FrontendController  {
             files = files :+ FileInProgress(envelopeId(i), fileId(i), fileRef(i), startedAt(i).toString)
           }
 
-          Ok(file_main(files)(request, applicationMessages)).withHeaders()
+          Ok(file_main(files)).withHeaders()
       }
   }
 
@@ -42,7 +41,7 @@ object FilesController extends Controller with FrontendController  {
       backConnector.deleteInProgressFile(fileRef).map {
         resultFromBackEnd =>
           val newFiles = files.filter( file => file.fileRef != fileRef)
-          Ok(file_main(newFiles)(request, applicationMessages)).withHeaders()
+          Ok(file_main(newFiles)).withHeaders()
       }
   }
 
@@ -50,12 +49,8 @@ object FilesController extends Controller with FrontendController  {
     implicit request =>
       frontConnector.scan(envelopeId, fileId, fileRef).map {
         resultFromFrontEnd =>
-          println()
-          println(resultFromFrontEnd)
-          println()
-          println()
           val newFiles = files.filter( file => file.fileRef != fileRef)
-          Ok(file_main(newFiles)(request, applicationMessages)).withHeaders()
+          Ok(file_main(newFiles)).withHeaders()
       }
   }
 
@@ -64,7 +59,7 @@ object FilesController extends Controller with FrontendController  {
       frontConnector.moveToTransientStore(envelopeId, fileId, fileRef).map {
         resultFromFrontEnd =>
           val newFiles = files.filter( file => file.fileRef != fileRef)
-          Ok(file_main(newFiles)(request, applicationMessages)).withHeaders()
+          Ok(file_main(newFiles)).withHeaders()
       }
   }
 

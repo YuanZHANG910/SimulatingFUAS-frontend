@@ -3,11 +3,11 @@ package uk.gov.hmrc.SimulatingFUAS.supports
 import play.api.libs.json.{JsValue, Json}
 import uk.gov.hmrc.SimulatingFUAS.config.WSHttp
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost, HttpResponse}
+import uk.gov.hmrc.play.http.{HeaderCarrier, HttpResponse}
 
 import scala.concurrent.Future
 
-object BackConnector extends BackConnector with ServicesConfig with ActionsSupport {
+object BackConnector extends ServicesConfig with ActionsSupport {
 
   lazy val Url: String = baseUrl("file-back")
   val http = WSHttp
@@ -32,9 +32,4 @@ object BackConnector extends BackConnector with ServicesConfig with ActionsSuppo
   def deleteInProgressFile(fileRef: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
     http.DELETE(s"$Url/file-upload/files/inprogress/$fileRef")
   }
-}
-
-trait BackConnector {
-  val Url: String
-  val http: HttpGet with HttpPost
 }

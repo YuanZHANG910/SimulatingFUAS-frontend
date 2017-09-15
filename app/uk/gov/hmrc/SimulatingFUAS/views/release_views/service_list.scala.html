@@ -17,13 +17,13 @@
     @serverDetails.map { name =>
     <tr>
       <td><h3>@name</h3></td>
-      <td><h3><a href="@routes.LoginController.getServiceReleaseNotes(name)">View</a></h3></td>
+      <td><h3><a href="@routes.ReleaseRepoController.getServiceReleaseNotes(name)">View</a></h3></td>
     </tr>
     }
     </tbody>
   </table>
 
-  <div><a class="button" href="@routes.LoginController.getRepoList()">List by repos</a></div>
+  <div><a class="button" href="@routes.ReleaseRepoController.getRepoList()">List by repos</a></div>
   </br>
-  <div><a class="button" href="@routes.LoginController.getAddAService()">Add another Service</a></div>
+  <div><a class="button" href="@routes.ReleaseRepoController.getAddAService()">Add another Service</a></div>
 }

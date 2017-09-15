@@ -1,5 +1,5 @@
 @import uk.gov.hmrc.SimulatingFUAS.controllers.routes
-@import uk.gov.hmrc.SimulatingFUAS.controllers.RepoDetails
+@import uk.gov.hmrc.SimulatingFUAS.models.RepoDetails
 
 @(serverDetails: Seq[RepoDetails])(implicit request: Request[_], messages: Messages)
 
@@ -22,13 +22,13 @@
           <td><h3>@repoName</h3></td>
           <td><h3>@version</h3></td>
           <td><h3>@deployDate.toLocalDate</h3></td>
-          <td><h3><a href="@routes.LoginController.getRepoReleaseNotes(repoName)">View</a></h3></td>
+          <td><h3><a href="@routes.ReleaseRepoController.getRepoReleaseNotes(repoName)">View</a></h3></td>
         </tr>
       }
     </tbody>
   </table>
 
-  <div><a class="button" href="@routes.LoginController.getServiceList()">List by Service</a></div>
+  <div><a class="button" href="@routes.ReleaseRepoController.getServiceList()">List by Service</a></div>
   </br>
-  <div><a class="button" href="@routes.LoginController.getAddAService()">Add another Service</a></div>
+  <div><a class="button" href="@routes.ReleaseRepoController.getAddAService()">Add another Service</a></div>
 }

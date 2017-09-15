@@ -20,7 +20,7 @@ object EnvelopeController extends Controller with FrontendController {
 
   val main: Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
-      Future.successful(Ok(envelope_main("")(request, applicationMessages)).withHeaders())
+      Future.successful(Ok(envelope_main("")))
   }
 
   def loadEnvelopeInf: Action[AnyContent] = securedAction[AnyContent] {
@@ -28,23 +28,23 @@ object EnvelopeController extends Controller with FrontendController {
       val submitInput = inputEnvelopesId.bindFromRequest()
       val result = backConnector.loadEnvelopeInf(submitInput.data("envelopes'ID")).map {
         resultFromBackEnd =>
-          Ok(envelopes_inf(submitInput.data("envelopes'ID"))(Json.prettyPrint(resultFromBackEnd))(request, applicationMessages))
+          Ok(envelopes_inf(submitInput.data("envelopes'ID"))(Json.prettyPrint(resultFromBackEnd)))
       }
       result.recover{
-        case _ => Ok(envelope_main("For envelope: "+submitInput.data("envelopes'ID")+" is not-found")(request, applicationMessages))
+        case _ => Ok(envelope_main("For envelope: "+submitInput.data("envelopes'ID")+" is not-found"))
       }
   }
 
   def loadEnvelopeInfR(id: String, inf: String): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
-      Future.successful(Ok(envelopes_inf(id)(inf)(request, applicationMessages)))
+      Future.successful(Ok(envelopes_inf(id)(inf)))
   }
 
   def loadEnvelopeInfRE(id: String): Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>
     backConnector.loadEnvelopeInf(id).map {
       resultFromBackEnd =>
-        Ok(envelopes_inf(id)(Json.prettyPrint(resultFromBackEnd))(request, applicationMessages))
+        Ok(envelopes_inf(id)(Json.prettyPrint(resultFromBackEnd)))
     }
   }
 
@@ -52,7 +52,7 @@ object EnvelopeController extends Controller with FrontendController {
     implicit request =>
       backConnector.loadEnvelopeEve(id).map {
         resultFromBackEnd =>
-          Ok(envelopes_inf(id)(Json.prettyPrint(resultFromBackEnd))(request, applicationMessages))
+          Ok(envelopes_inf(id)(Json.prettyPrint(resultFromBackEnd)))
       }
   }
 
@@ -60,7 +60,7 @@ object EnvelopeController extends Controller with FrontendController {
     implicit request =>
       backConnector.loadEnvelopeEve(id).map {
         resultFromBackEnd =>
-          Ok(envelopes_inf(id)(Json.prettyPrint(resultFromBackEnd))(request, applicationMessages))
+          Ok(envelopes_inf(id)(Json.prettyPrint(resultFromBackEnd)))
       }
   }
 

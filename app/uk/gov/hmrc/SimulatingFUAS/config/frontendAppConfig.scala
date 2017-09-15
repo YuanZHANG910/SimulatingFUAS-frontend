@@ -1,6 +1,6 @@
 package uk.gov.hmrc.SimulatingFUAS.config
 
-import play.api.Play.{configuration, current}
+import play.api.Configuration
 import uk.gov.hmrc.play.config.ServicesConfig
 
 trait AppConfig {
@@ -12,6 +12,8 @@ trait AppConfig {
 }
 
 object FrontendAppConfig extends AppConfig with ServicesConfig {
+
+  lazy val configuration: Configuration = Configuration.load(play.Environment.simple().underlying())
 
   private def loadConfig(key: String) = configuration.getString(key).getOrElse(throw new Exception(s"Missing configuration key: $key"))
 
