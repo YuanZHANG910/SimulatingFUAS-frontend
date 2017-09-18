@@ -1,36 +1,9 @@
 # microservice specific routes
 
-
-GET         /login                                     uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.loginPage(continueUrl: Option[String])
-POST        /check                                     uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.check(continueUrl: String)
-GET         /about                                     uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.about
-
-GET         /                                          uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main
-GET         /envelopes                                 uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main
-GET         /envelopesInf                              uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInf
-GET         /envelopesInf/:id                          uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInfR(id: String, inf: String)
-GET         /envelopesInfRE/:id                        uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInfRE(id: String)
-GET         /envelopesEve/:id                          uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeEve(id: String)
-
-GET         /replay                                    uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.replay(id: String, inf: String)
-
-GET         /files                                     uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.main
-GET         /files/scan                                uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.scan(envelopeId: String, fileId: String, fileRef: String)
-GET         /files/move                                uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.moveToTransientStore(envelopeId: String, fileId: String, fileRef: String)
-GET         /files/deleteInProgressFile                uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.deleteInProgressFile(fileRef: String)
-
-GET         /CreateAnEnvelope                          uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.callCreateAnEnvelope
-POST        /upLoadFiles/:eld/                         uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.upLoadingFiles(eld:String)
-
-
 #Release note URLs
-GET         /add-a-service                             uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getAddAService
-POST        /add-a-service                             uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.submitAddAService
-GET         /service-list                              uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getServiceList
-GET         /service-release-notes/:serviceName        uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getServiceReleaseNotes(serviceName:String)
-GET         /get-repo-release-notes/:repoName          uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getRepoReleaseNotes(repoName: String)
-GET         /repo-list/                                uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getRepoList
-
-
-# Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file                              controllers.Assets.versioned(path="/public", file:Asset)
+GET         /add-a-service                             uk.gov.hmrc.ReleaseNotes.controllers.ReleaseRepoController.getAddAService
+POST        /add-a-service                             uk.gov.hmrc.ReleaseNotes.controllers.ReleaseRepoController.submitAddAService
+GET         /service-list                              uk.gov.hmrc.ReleaseNotes.controllers.ReleaseRepoController.getServiceList
+GET         /service-release-notes/:serviceName        uk.gov.hmrc.ReleaseNotes.controllers.ReleaseRepoController.getServiceReleaseNotes(serviceName:String)
+GET         /get-repo-release-notes/:repoName          uk.gov.hmrc.ReleaseNotes.controllers.ReleaseRepoController.getRepoReleaseNotes(repoName: String)
+GET         /repo-list/                                uk.gov.hmrc.ReleaseNotes.controllers.ReleaseRepoController.getRepoList

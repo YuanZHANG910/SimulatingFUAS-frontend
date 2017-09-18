@@ -1,19 +1,19 @@
-package uk.gov.hmrc.SimulatingFUAS.controllers
+package uk.gov.hmrc.ReleaseNotes.controllers
 
 import com.github.nscala_time.time.Imports.DateTime
 import com.github.nscala_time.time.OrderingImplicits._
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.{Ok, Redirect}
-import uk.gov.hmrc.SimulatingFUAS.models.{ReleaseNote, RepoDetails}
-import uk.gov.hmrc.SimulatingFUAS.views.html.release_views._
+import play.api.mvc.{Action, AnyContent, Controller}
+import uk.gov.hmrc.ReleaseNotes.models.{ReleaseNote, RepoDetails}
+import uk.gov.hmrc.ReleaseNotes.views.html.release_views._
+import uk.gov.hmrc.play.frontend.controller.FrontendController
 
 import scala.concurrent.Future
 import scala.io.Source
 
-object ReleaseRepoController {
+object ReleaseRepoController extends Controller with FrontendController {
   val releaseForm: Form[ReleaseNote] = ReleaseNote.releaseForm
 
   val serviceDetailsList: Seq[RepoDetails] = Seq(

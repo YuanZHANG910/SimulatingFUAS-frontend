@@ -6,7 +6,7 @@
     <logger name="play.core.netty" level="INFO"/>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>logs/SimulatingFUAS-frontend.log</file>
+        <file>logs/release-notes.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>%date{ISO8601} level=[%level] logger=[%logger] thread=[%thread] message=[%message] %replace(exception=[%xException]){'^exception=\[\]$',''}%n</pattern>
         </encoder>

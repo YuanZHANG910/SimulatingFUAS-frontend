@@ -1,4 +1,4 @@
-package uk.gov.hmrc.SimulatingFUAS.config
+package uk.gov.hmrc.ReleaseNotes.config
 
 import play.api.Configuration
 import uk.gov.hmrc.play.config.ServicesConfig

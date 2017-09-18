@@ -1,4 +1,4 @@
-package uk.gov.hmrc.SimulatingFUAS.models
+package uk.gov.hmrc.ReleaseNotes.models
 
 import com.github.nscala_time.time.Imports.DateTime
 import play.api.data.Form

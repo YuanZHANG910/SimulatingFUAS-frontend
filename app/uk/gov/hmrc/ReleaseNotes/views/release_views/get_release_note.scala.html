@@ -1,0 +1,8 @@
+
+@(serverDetails: Iterator[String], serviceName: String)(implicit request: Request[_], messages: Messages)
+
+@uk.gov.hmrc.ReleaseNotes.views.html.main_template(title = "Release Notes", mainClass = Some("full-width")) {
+  <h3>Server Notes</h3>
+
+  @serverDetails.map { line => <p>@line</p> }
+}

@@ -1,4 +1,4 @@
-package uk.gov.hmrc.SimulatingFUAS.config
+package uk.gov.hmrc.ReleaseNotes.config
 
 import uk.gov.hmrc.auth.core.PlayAuthConnector
 import uk.gov.hmrc.play.audit.http.config.LoadAuditingConfig

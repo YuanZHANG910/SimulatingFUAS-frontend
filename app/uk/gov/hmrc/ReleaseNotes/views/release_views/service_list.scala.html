@@ -1,8 +1,8 @@
-@import uk.gov.hmrc.SimulatingFUAS.controllers.routes
+@import uk.gov.hmrc.ReleaseNotes.controllers.routes
 
 @(serverDetails: Seq[String])(implicit request: Request[_], messages: Messages)
 
-@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hackathon Release Notes", mainClass = Some("full-width")) {
+@uk.gov.hmrc.ReleaseNotes.views.html.main_template(title = "Release Notes", mainClass = Some("full-width")) {
   <h2>Release Notes</h2>
 
   <table>

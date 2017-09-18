@@ -1,4 +1,4 @@
-@(appConfig: uk.gov.hmrc.SimulatingFUAS.config.AppConfig,
+@(appConfig: uk.gov.hmrc.ReleaseNotes.config.AppConfig,
   title: String,
   mainClass: Option[String] = None,
   mainDataAttributes: Option[Html] = None,
@@ -23,7 +23,7 @@
 
 @insideHeader = {
     @layouts.header_nav(
-      navTitle = Some("FUAAS Simulator"),
+      navTitle = Some("Release Notes"),
       navTitleLink = None,
       showBetaLink = false,
       navLinks = Some(headerNavLinks))

@@ -1,4 +1,4 @@
-package uk.gov.hmrc.SimulatingFUAS.config
+package uk.gov.hmrc.ReleaseNotes.config
 
 import javax.inject.{Inject, Singleton}
 
@@ -28,7 +28,7 @@ object FrontendGlobal extends DefaultFrontendGlobal {
   }
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit rh: Request[_]): Html =
-    uk.gov.hmrc.SimulatingFUAS.views.html.error_template(pageTitle, heading, message)
+    uk.gov.hmrc.ReleaseNotes.views.html.error_template(pageTitle, heading, message)
 
   override def microserviceMetricsConfig(implicit app: Application): Option[Configuration] =
     app.configuration.getConfig(s"microservice.metrics")

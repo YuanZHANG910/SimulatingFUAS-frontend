@@ -1,9 +1,9 @@
-@import uk.gov.hmrc.SimulatingFUAS.models.RepoDetails
-@import uk.gov.hmrc.SimulatingFUAS.controllers.routes
+@import uk.gov.hmrc.ReleaseNotes.models.RepoDetails
+@import uk.gov.hmrc.ReleaseNotes.controllers.routes
 
 @(serverDetails: Seq[RepoDetails])(implicit request: Request[_], messages: Messages)
 
-@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "Hackathon Release Notes", mainClass = Some("full-width")) {
+@uk.gov.hmrc.ReleaseNotes.views.html.main_template(title = "Release Notes", mainClass = Some("full-width")) {
 
   <h1>Release Notes for @serverDetails.head.serviceName</h1>
 
