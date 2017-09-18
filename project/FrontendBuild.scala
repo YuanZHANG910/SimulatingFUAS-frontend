@@ -2,7 +2,7 @@ import sbt._
 
 object FrontendBuild extends Build with MicroService {
 
-  val appName = "SimulatingFUAS-frontend"
+  val appName = "release-notes"
 
   override lazy val appDependencies: Seq[ModuleID] = AppDependencies()
 }

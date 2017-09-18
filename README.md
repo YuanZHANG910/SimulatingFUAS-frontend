@@ -1,6 +1,13 @@
 # Release Notes
 
-This is a placeholder README.md for a new repository
+This repo is the result of the Worthing Hackathon day on 19th July 2017.
+
+This project is a rough prototype and can be run with the following command:
+```
+sbt run
+```
+
+Then navigate to: http://localhost:9009/release-notes/service-list
 
 ### License
 
