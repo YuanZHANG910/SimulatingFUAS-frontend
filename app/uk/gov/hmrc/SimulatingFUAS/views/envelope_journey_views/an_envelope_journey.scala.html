@@ -1,0 +1,43 @@
+@(message: String)(implicit request: Request[_], messages: Messages)
+
+@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "SimulatingFUAS-frontend", mainClass = Some("full-width")) {
+    @uk.gov.hmrc.SimulatingFUAS.views.html.main_base()
+
+  <h3>
+    Creates an envelope and auto generates an Id. The body in the http request must be json. Successful response is provided in the Location Header which will have the link of the newly created envelope.
+  </h3>
+
+  <h3>
+    Note: All parameters are optional. A callbackUrl is optional but should be provided in order for the service to provide feedback of the envelope's progress.
+  </h3>
+
+  <h4>
+    Request (POST): localhost:8898/file-upload/envelopes<br>
+    Example Request Body:
+  </h4>
+
+  @message<br>
+
+  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.callCreateAnEnvelope) {
+
+    @helper.CSRF.formField
+
+    <pre>
+      <textarea rows="10" cols="70" name="body">
+        {
+          "callbackUrl": "http://localhost:8897/fuaas-simulator/CallBack",
+          "constraints": {
+              "maxItems": 5,
+              "maxSize": "25MB",
+              "maxSizePerItem": "10MB",
+              "contentTypes": ["application/pdf","image/jpeg","application/xml"]
+          }
+        }
+      </textarea>
+    </pre>
+
+    <p><input class="button" type="submit" value="Creat An Envelope"/></p>
+
+  }
+
+}

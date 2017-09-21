@@ -16,7 +16,7 @@ import scala.concurrent.Future
 object EnvelopeController extends Controller with FrontendController {
 
   val backConnector = BackConnector
-  val inputEnvelopesId : Form[UserInput] = Forms.inputEnvelopesId
+  val inputEnvelopesId : Form[UserInput] = Forms.userInputForm
 
   val main: Action[AnyContent] = securedAction[AnyContent] {
     implicit request =>

@@ -1,0 +1,63 @@
+@(id: String, uploadMessage: String, downLoadMessage: String)(implicit request: Request[_], messages: Messages)
+
+@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "SimulatingFUAS-frontend", mainClass = Some("full-width")) {
+  @uk.gov.hmrc.SimulatingFUAS.views.html.main_base()
+
+  <h2>Your Envelopes' Id is :</h2>
+
+  <h3>@id</h3>
+
+  <h3>
+    An envelope may hold many files, but must have exactly 1 file attached for each upload.<br>
+    Your can upload a file now:<br>
+  </h3>
+
+  <h4>
+    Example Request (POST): http://localhost:8899/file-upload/upload/envelopes/{{envelopeId}}/files/{{fileId}}<br>
+    The file's name is the default value for the fileId.<br>
+  </h4>
+
+  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.upLoadingFiles(id), 'enctype -> "multipart/form-data") {
+
+    @helper.CSRF.formField
+
+    <h4>
+      @uploadMessage <br>
+    </h4>
+
+    <input type="file" name="File">
+
+    <p><input class="button" type="submit"/></p>
+
+  }
+
+
+  <h3>
+    Your may download a file now:<br>
+    If you can not please check your callback or view the Envelope or view files in progress on the top<br>
+  </h3>
+
+  <h4>
+    Example Request (GET): http://localhost:8898/file-upload/envelopes/{{envelopeId}}/files/{{fileId}}/content
+  </h4>
+
+  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.downLoadingFiles(id)) {
+
+    @helper.CSRF.formField
+
+    <h4>
+      @downLoadMessage <br>
+    </h4>
+
+    <h4>
+      Please enter your fileId
+    </h4>
+
+    <input name="fileId" style="width: 510px;" type="text" placeholder="usually it is the file's name">
+
+    <p>
+      <input class="button" type="submit" value="Download"/>
+    </p>
+
+  }
+}

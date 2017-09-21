@@ -14,7 +14,7 @@ object Forms {
     (User.apply)(User.unapply)
   )
 
-  val inputEnvelopesId : Form[UserInput] =
+  val userInputForm : Form[UserInput] =
     Form(mapping(
       "input" -> nonEmptyText
     )(UserInput.apply)(UserInput.unapply))

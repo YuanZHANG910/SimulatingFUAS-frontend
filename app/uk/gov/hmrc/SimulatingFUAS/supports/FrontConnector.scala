@@ -1,10 +1,12 @@
 package uk.gov.hmrc.SimulatingFUAS.supports
 
 import java.net.URLEncoder
+import java.nio.charset.Charset
 import java.nio.file.Paths
 
 import play.api.libs.json.{JsObject, Json}
-import play.api.mvc.{Headers, MultipartFormData}
+import play.api.libs.ws.WSResponse
+import play.api.mvc.{AnyContent, Headers, MultipartFormData, Request}
 import uk.gov.hmrc.SimulatingFUAS.config.WSHttp
 import uk.gov.hmrc.play.config.ServicesConfig
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpResponse}
@@ -17,24 +19,27 @@ object FrontConnector extends ServicesConfig with ActionsSupport {
   val http = WSHttp
   val emptyJson: JsObject = Json.obj()
 
-  def upLoadFiles(eId:String, requestHeader: Headers)(files: Option[MultipartFormData[play.api.libs.Files.TemporaryFile]])
-                 (implicit headerCarrier: HeaderCarrier): Unit = {
-    for (file <- files.map(_.files).toList.head) {
-      val path = Paths.get(file.ref.file.getAbsolutePath)
-      val data = java.nio.file.Files.readAllBytes(path)
-      val encodedFileName = URLEncoder.encode(file.filename, java.nio.charset.StandardCharsets.UTF_8.toString)
+  def upLoadFiles(eId:String)(files: Option[MultipartFormData[play.api.libs.Files.TemporaryFile]])
+                 (implicit headerCarrier: HeaderCarrier): Either[String,Future[WSResponse]] = {
 
-      client
-        .url(s"$Url/file-upload/upload/envelopes/$eId/files/$encodedFileName")
-        .withHeaders(
-          "Content-Type" -> "multipart/form-data; boundary=---011000010111000001101001",
-          "X-Request-ID" -> "someId",
-          "X-Session-ID" -> "someId",
-          "X-Requested-With" -> "someId"
-        )
-        .post("-----011000010111000001101001\r\nContent-Disposition: form-data; name=\"file1\"; filename=\"" +
-          file.filename + "\"\r\nContent-Type: text/plain\r\n\r\n" + data.mkString + "\r\n-----011000010111000001101001--")
+    val file = files.map(_.files).toList.head.head
+    val path = Paths.get(file.ref.file.getAbsolutePath)
+    val data = new String(java.nio.file.Files.readAllBytes(path), Charset.forName("UTF-8"))
+    val encodedFileName = URLEncoder.encode(file.filename, java.nio.charset.StandardCharsets.UTF_8.toString)
+    val contentType = file.contentType.getOrElse("text/plain")
+
+    if (encodedFileName.isEmpty) {Left("Request must have exactly 1 file attached")}
+    else {
+      Right(
+        client
+          .url(s"$Url/file-upload/upload/envelopes/$eId/files/$encodedFileName")
+          .withHeaders(
+            "Content-Type" -> s"$contentType; boundary=---011000010111000001101001"
+          )
+          .post(s"""-----011000010111000001101001\r\nContent-Disposition:form-data; name="${file.filename}"; filename="${file.filename}"\r\nContent-Type:$contentType\r\n\r\n$data\r\n-----011000010111000001101001--""")
+      )
     }
+
   }
 
   def scan(envelopeId: String, fileId: String, fileRef: String)
