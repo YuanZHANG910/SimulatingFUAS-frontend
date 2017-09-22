@@ -1,3 +1,5 @@
+@import uk.gov.hmrc.SimulatingFUAS.controllers.routes
+
 @(id: String, uploadMessage: String)(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "SimulatingFUAS-frontend", mainClass = Some("full-width")) {
@@ -5,7 +7,7 @@
 
   <h2>Your Envelopes' Id is :</h2>
 
-  <h3>@id</h3>
+  <h2>@id</h2>
 
   <h3>
     An envelope may hold many files, but must have exactly 1 file attached for each upload.<br>
@@ -17,17 +19,25 @@
     The file's name is the default value for the fileId.<br>
   </h4>
 
-  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.upLoadingFiles(id), 'enctype -> "multipart/form-data") {
+  @helper.form(routes.NewEnvelopesController.upLoadingFiles(id), 'enctype -> "multipart/form-data") {
 
     @helper.CSRF.formField
 
-    <h4>
+    <h4 style="color:royalblue;">
       @uploadMessage <br>
     </h4>
 
     <input type="file" name="File">
 
     <p><input class="button" type="submit"/></p>
+
+  }
+
+  @helper.form(routes.NewEnvelopesController.deleteAnEnvelope(id)) {
+
+    @helper.CSRF.formField
+
+    <p><input class="button" type="submit" value="Delete the envelope"/></p>
 
   }
 }

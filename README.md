@@ -1,8 +1,18 @@
 # SimulatingFUAS-frontend
 
-[![Build Status](https://travis-ci.org/hmrc/SimulatingFUAS-frontend.svg)](https://travis-ci.org/hmrc/SimulatingFUAS-frontend) [ ![Download](https://api.bintray.com/packages/hmrc/releases/SimulatingFUAS-frontend/images/download.svg) ](https://bintray.com/hmrc/releases/SimulatingFUAS-frontend/_latestVersion)
+Running on local machine
+------------------------------
 
-This is a placeholder README.md for a new repository
+* Install [Service Manager](https://confluence.tools.tax.service.gov.uk/display/DTRG/04+Service+Manager+Setup)
+* Install Mongodb 3.0.8
+* Run
+    1. mongod
+    2. clamd
+    3. sm --start ASSETS_FRONTEND -f
+    4. sm --start FILE_UPLOAD_ALL -f
+    5. local sbt run
+    6. http://localhost:8897/fuaas-simulator/
+    
 
 ### License
 

@@ -18,6 +18,12 @@ object Forms {
     Form(mapping(
       "input" -> nonEmptyText
     )(UserInput.apply)(UserInput.unapply))
+
+  val userFileActionInputForm : Form[UserFileActionInput] =
+    Form(mapping(
+      "fileId" -> nonEmptyText,
+      "action" -> nonEmptyText
+    )(UserFileActionInput.apply)(UserFileActionInput.unapply))
 }
 
 case class FileInProgress(envelopeID: String, fileID: String, fileRef: String, startedAt: String)
@@ -44,4 +50,5 @@ object FileInProgress {
 }
 
 case class UserInput(input: String)
+case class UserFileActionInput(fileId: String, action: String)
 case class User(name: String, password: String)

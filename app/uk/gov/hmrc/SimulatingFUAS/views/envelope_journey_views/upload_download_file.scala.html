@@ -1,11 +1,13 @@
-@(id: String, uploadMessage: String, downLoadMessage: String)(implicit request: Request[_], messages: Messages)
+@import uk.gov.hmrc.SimulatingFUAS.controllers.routes
+
+@(id: String, uploadMessage: String, downLoadMessage: String, routingMessage: String)(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "SimulatingFUAS-frontend", mainClass = Some("full-width")) {
   @uk.gov.hmrc.SimulatingFUAS.views.html.main_base()
 
   <h2>Your Envelopes' Id is :</h2>
 
-  <h3>@id</h3>
+  <h2>@id</h2>
 
   <h3>
     An envelope may hold many files, but must have exactly 1 file attached for each upload.<br>
@@ -17,11 +19,11 @@
     The file's name is the default value for the fileId.<br>
   </h4>
 
-  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.upLoadingFiles(id), 'enctype -> "multipart/form-data") {
+  @helper.form(routes.NewEnvelopesController.upLoadingFiles(id), 'enctype -> "multipart/form-data") {
 
     @helper.CSRF.formField
 
-    <h4>
+    <h4 style="color:royalblue;">
       @uploadMessage <br>
     </h4>
 
@@ -31,21 +33,31 @@
 
   }
 
-
-  <h3>
-    Your may download a file now:<br>
-    If you can not please check your callback or view the Envelope or view files in progress on the top<br>
-  </h3>
-
-  <h4>
-    Example Request (GET): http://localhost:8898/file-upload/envelopes/{{envelopeId}}/files/{{fileId}}/content
-  </h4>
-
-  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.NewEnvelopesController.downLoadingFiles(id)) {
+  @helper.form(routes.NewEnvelopesController.deleteAnEnvelope(id)) {
 
     @helper.CSRF.formField
 
-    <h4>
+    <p><input class="button" type="submit" value="Detlete the envelope"/></p>
+
+  }
+
+  <br>
+
+  <h3>
+    Your may download or delete a file:<br>
+    If you can not please check your callback or view the Envelope or view files in progress on the top.<br>
+  </h3>
+
+  <h4>
+    Download Request(GET): http://localhost:8898/file-upload/envelopes/{{envelopeId}}/files/{{fileId}}/content<br>
+    Delete Request(DELETE): http://localhost:8898/file-upload/envelopes/{{envelopeId}}/files/{{fileId}}/content
+  </h4>
+
+  @helper.form(routes.NewEnvelopesController.downloadOrDeleteFiles(id)) {
+
+    @helper.CSRF.formField
+
+    <h4 style="color:royalblue;">
       @downLoadMessage <br>
     </h4>
 
@@ -55,9 +67,30 @@
 
     <input name="fileId" style="width: 510px;" type="text" placeholder="usually it is the file's name">
 
-    <p>
-      <input class="button" type="submit" value="Download"/>
-    </p>
+    <button name="action" type="text" value="download">Download</button>
+    <button name="action" type="text" value="delete">Delete</button>
+  }
 
+  <br>
+
+  @helper.form(routes.NewEnvelopesController.routeAnEnvelope(id)) {
+
+    @helper.CSRF.formField
+
+    <h4 style="color:royalblue;">
+      @routingMessage <br>
+    </h4>
+
+    <pre>
+      <textarea rows="5" cols="60" name="body">
+        {
+        "envelopeId": "@{id}",
+        "application" : "application:ABCD/1.2.33",
+        "destination": "TEST"
+        }
+      </textarea>
+    </pre>
+
+    <button name="action" type="text" value="download">Submit Routing Request</button>
   }
 }

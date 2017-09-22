@@ -15,11 +15,22 @@ object BackConnector extends ServicesConfig with ActionsSupport {
   lazy val Url: String = baseUrl("file-back")
   val http = WSHttp
 
-  def createAnEmptyEnvelope(implicit hc: HeaderCarrier, request: Request[AnyContent]) = {
+  def createAnEmptyEnvelope()(implicit hc: HeaderCarrier, request: Request[AnyContent]) = {
     val submitInput = inputEnvelopesBody.bindFromRequest()
     val result = Try{Json.parse(submitInput.data("body"))}
     if (result.isFailure) result.failed.get
     else http.POST(s"$Url/file-upload/envelopes", Json.parse(submitInput.data("body"))).map(res => res.header("Location").last)
+  }
+
+  def deleteAnEnvelope(eid: String)(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[HttpResponse] = {
+    http.DELETE(s"$Url/file-upload/envelopes/$eid")
+  }
+
+  def routeAnEnvelope(eid: String)(implicit hc: HeaderCarrier, request: Request[AnyContent]) = {
+    val submitInput = inputEnvelopesBody.bindFromRequest()
+    val result = Try{Json.parse(submitInput.data("body"))}
+    if (result.isFailure) result.failed.get
+    else http.POST(s"$Url/file-routing/requests","")
   }
 
   def loadEnvelopeInf(eid: String)(implicit hc: HeaderCarrier): Future[JsValue] = {
@@ -40,5 +51,9 @@ object BackConnector extends ServicesConfig with ActionsSupport {
 
   def downloadFile(eid: String, encodedFileId: String)(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[HttpResponse] = {
     http.GET(s"$Url/file-upload/envelopes/$eid/files/$encodedFileId/content")
+  }
+
+  def deleteFile(eid: String, encodedFileId: String)(implicit hc: HeaderCarrier): Future[HttpResponse] = {
+    http.DELETE(s"$Url/file-upload/envelopes/$eid/files/$encodedFileId")
   }
 }

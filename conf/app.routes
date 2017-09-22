@@ -21,8 +21,10 @@ GET         /files/deleteInProgressFile                uk.gov.hmrc.SimulatingFUA
 
 GET         /StartAnEnvelopeJourney                    uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.startAnJourney
 POST        /CreateAnEnvelope                          uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.callCreateAnEnvelope
-POST        /upLoadFiles/:eld/                         uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.upLoadingFiles(eld:String)
-POST        /downLoadingFiles/:eld/                    uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.downLoadingFiles(eld:String)
+POST        /DeleteAnEnvelope/:eld                     uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.deleteAnEnvelope(eld:String)
+POST        /routeAnEnvelope/:eld                      uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.routeAnEnvelope(eld:String)
+POST        /upLoadFiles/:eld                          uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.upLoadingFiles(eld:String)
+POST        /downLoadOrDeleteFiles/:eld                uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.downloadOrDeleteFiles(eld:String)
 
 
 POST        /CallBack                                  uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.callBack
