@@ -33,13 +33,20 @@ object NewEnvelopesController extends Controller with FrontendController {
     implicit request =>
       backConnector.createAnEmptyEnvelope match {
         case error: Throwable ⇒ Future.successful(Ok(an_envelope_journey(s"invalid Json $error")))
-        case resultFromBackEnd: Future[String] ⇒
+        case resultFromBackEnd: Future[WSResponse] ⇒
           resultFromBackEnd.flatMap {
             resultFromBackEnd ⇒
-              val result = resultFromBackEnd.split("/").toList
-              val envelopeId = result.last
-              Future.successful(Ok(create_an_envelope_and_upload(envelopeId, "")))
+              if (resultFromBackEnd.status == 201) {
+                val result = resultFromBackEnd.header("Location").last.split("/").toList
+                val envelopeId = result.last
+                Future.successful(Ok(create_an_envelope_and_upload(envelopeId, "")))
+              } else {
+                Future.successful(
+                  Ok(an_envelope_journey(s"${resultFromBackEnd.json}"))
+                )
+              }
           }
+        case _ ⇒ Future.successful(Ok(an_envelope_journey(s"Unknown Error")))
       }
   }
 
@@ -93,27 +100,46 @@ object NewEnvelopesController extends Controller with FrontendController {
     val encodedFileId = URLEncoder.encode(fileId, "UTF-8")
     backConnector.downloadFile(eid, encodedFileId).flatMap {
       resultFromBackEnd ⇒
-        SaveFile.saveFileToLocal(resultFromBackEnd, fileId)
-        Future.successful(
-          Ok(upload_download_file(eid,
-            "Upload more files, if you want to",
-            s"$fileId has saved at ./tmp/$fileId, or download it use your browser " +
-              s"${backConnector.Url}/file-upload/envelopes/$eid/files/$encodedFileId/content", "")
+        if (resultFromBackEnd.status == 200) {
+          SaveFile.saveFileToLocal(resultFromBackEnd, fileId)
+          Future.successful(
+            Ok(upload_download_file(eid,
+              "Upload more files, if you want to",
+              s"$fileId has saved at ./tmp/$fileId, or download it use your browser " +
+                s"${backConnector.Url}/file-upload/envelopes/$eid/files/$encodedFileId/content", "")
+            )
           )
-        )
+        } else {
+          Future.successful(
+            Ok(upload_download_file(eid,
+              "Upload more files, if you want to",
+              s"${resultFromBackEnd.json}",
+              ""))
+          )
+        }
     }
   }
 
   def deleteFile(eid: String, fileId: String)(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[Result] = {
     val encodedFileId = URLEncoder.encode(fileId, "UTF-8")
     backConnector.deleteFile(eid, encodedFileId).flatMap {
-      _ ⇒
-        Future.successful(
-          Ok(upload_download_file(eid,
-                                  "Upload more files, if you want to",
-                                  s"File:$fileId has been deleted",
-                                  ""))
-        )
+      resultFromBackEnd ⇒
+        if (resultFromBackEnd.status == 200) {
+          Future.successful(
+            Ok(upload_download_file(eid,
+              "Upload more files, if you want to",
+              s"File:$fileId has been deleted",
+              ""))
+          )
+        } else {
+          Future.successful(
+            Ok(upload_download_file(eid,
+              "Upload more files, if you want to",
+              s"${resultFromBackEnd.json}",
+              ""))
+          )
+        }
+
     }
   }
 
@@ -128,14 +154,57 @@ object NewEnvelopesController extends Controller with FrontendController {
                                 )
         case resultFromBackEnd: Future[HttpResponse] ⇒
           resultFromBackEnd.flatMap {
-            resultFromBackEnd ⇒
+            _ ⇒
               Future.successful(
-                Ok(upload_download_file(eid,
-                                        "Upload more files, if you want to",
-                                        "",
-                                        s"Envelope has routed"))
+                Ok(Envelope_routed(eid,
+                                   "The envelope has been routed, can not upload more files to the envelope," +
+                                     " but you still can download a file with a fileID, or download the envelope as a zip file",
+                                   s""))
               )
           }
+      }
+  }
+
+  def downloadEnvelope(eid: String): Action[AnyContent] = securedAction[AnyContent] {
+    implicit request =>
+      val zipName = s"$eid.zip"
+      backConnector.downloadEnvelope(eid).flatMap {
+        resultFromBackEnd ⇒
+          SaveFile.saveFileToLocal(resultFromBackEnd, zipName)
+          Future.successful(
+            Ok(Envelope_routed(eid,
+                               "The envelope has been routed, can not upload more files to the envelope," +
+                                 " but you still can download a file with a fileID, or download the envelope as a zip file",
+                               s"$eid has saved at ./tmp/$zipName, or download it use your browser " +
+                                 s"${backConnector.Url}/file-transfer/envelopes/$eid")
+            )
+          )
+      }
+  }
+
+  def downloadFileAfterRouted(eid: String): Action[AnyContent] = securedAction[AnyContent] {
+    implicit request =>
+    val fileId = userFileActionInputForm.bindFromRequest().data("fileId")
+    val encodedFileId = URLEncoder.encode(fileId, "UTF-8")
+    backConnector.downloadFile(eid, encodedFileId).flatMap {
+      resultFromBackEnd ⇒
+        SaveFile.saveFileToLocal(resultFromBackEnd, fileId)
+        Future.successful(
+          Ok(Envelope_routed(eid,
+            "The envelope has been routed, can not upload more files, but you still can download a file with a fileID",
+            s"$fileId has saved at ./tmp/$fileId, or download it use your browser " +
+              s"${backConnector.Url}/file-upload/envelopes/$eid/files/$encodedFileId/content")
+          )
+        )
+    }
+  }
+
+  def deleteRoutedEnvelope(eid: String): Action[AnyContent] = securedAction[AnyContent] {
+    implicit request =>
+      backConnector.deleteRoutedEnvelope(eid).flatMap {
+        _ ⇒
+          val message = s"Envelope: $eid has been deleted, a full life cycle of an envelope has fulfilled"
+          Future.successful(Ok(an_envelope_journey(message)))
       }
   }
 

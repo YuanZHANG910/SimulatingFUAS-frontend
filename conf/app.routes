@@ -25,6 +25,9 @@ POST        /DeleteAnEnvelope/:eld                     uk.gov.hmrc.SimulatingFUA
 POST        /routeAnEnvelope/:eld                      uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.routeAnEnvelope(eld:String)
 POST        /upLoadFiles/:eld                          uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.upLoadingFiles(eld:String)
 POST        /downLoadOrDeleteFiles/:eld                uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.downloadOrDeleteFiles(eld:String)
+POST        /downloadFileAfterRouted/:eld              uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.downloadFileAfterRouted(eld:String)
+POST        /downloadEnvelope/:eld                     uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.downloadEnvelope(eld:String)
+POST        /deleteRoutedEnvelope/:eld                 uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.deleteRoutedEnvelope(eld:String)
 
 
 POST        /CallBack                                  uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.callBack

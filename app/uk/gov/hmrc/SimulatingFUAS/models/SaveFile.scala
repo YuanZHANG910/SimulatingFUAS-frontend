@@ -2,10 +2,10 @@ package uk.gov.hmrc.SimulatingFUAS.models
 
 import java.io.{BufferedOutputStream, File, FileOutputStream}
 
-import uk.gov.hmrc.play.http.HttpResponse
+import play.api.libs.ws.WSResponse
 
 object SaveFile {
-  def saveFileToLocal(resultFromBackEnd: HttpResponse, fileId:String): Unit = {
+  def saveFileToLocal(resultFromBackEnd: WSResponse, fileId:String): Unit = {
     val fileBody = resultFromBackEnd.body
     val outputFolder = s"./tmp"
     val pathFile: File = new File(outputFolder)
