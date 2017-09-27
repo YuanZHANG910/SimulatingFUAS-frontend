@@ -2,12 +2,12 @@ package uk.gov.hmrc.SimulatingFUAS.controllers
 
 import java.net.URLEncoder
 
+import play.api.Logger
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.libs.ws.WSResponse
 import play.api.mvc._
-import uk.gov.hmrc.SimulatingFUAS.controllers.LoginController._
 import uk.gov.hmrc.SimulatingFUAS.models.{Forms, SaveFile, UserFileActionInput, UserInput}
 import uk.gov.hmrc.SimulatingFUAS.supports.{BackConnector, FrontConnector}
 import uk.gov.hmrc.SimulatingFUAS.views.html.envelope_journey_views._
@@ -24,12 +24,12 @@ object NewEnvelopesController extends Controller with FrontendController {
   val inputEnvelopesBody: Form[UserInput] = Forms.userInputForm
   val userFileActionInputForm: Form[UserFileActionInput] = Forms.userFileActionInputForm
 
-  def startAnJourney: Action[AnyContent] = securedAction[AnyContent] {
+  def startAnJourney: Action[AnyContent] = Action.async {
     implicit request =>
       Future.successful(Ok(an_envelope_journey("")))
   }
 
-  def callCreateAnEnvelope: Action[AnyContent] = securedAction[AnyContent] {
+  def callCreateAnEnvelope: Action[AnyContent] = Action.async {
     implicit request =>
       backConnector.createAnEmptyEnvelope match {
         case error: Throwable ⇒ Future.successful(Ok(an_envelope_journey(s"invalid Json $error")))
@@ -50,7 +50,7 @@ object NewEnvelopesController extends Controller with FrontendController {
       }
   }
 
-  def deleteAnEnvelope(id: String): Action[AnyContent] = securedAction[AnyContent] {
+  def deleteAnEnvelope(id: String): Action[AnyContent] = Action.async {
     implicit request =>
       backConnector.deleteAnEnvelope(id).flatMap {
         _ ⇒ {
@@ -60,7 +60,7 @@ object NewEnvelopesController extends Controller with FrontendController {
       }
   }
 
-  def upLoadingFiles(eid: String): Action[AnyContent] = securedAction[AnyContent] {
+  def upLoadingFiles(eid: String): Action[AnyContent] = Action.async {
     implicit request =>
       frontConnector.upLoadFiles(eid)(request.body.asMultipartFormData) match {
         case Left(error) ⇒ Future.successful(Ok(create_an_envelope_and_upload(eid, s"File failed to uploaded: $error")))
@@ -77,7 +77,7 @@ object NewEnvelopesController extends Controller with FrontendController {
       }
   }
 
-  def downloadOrDeleteFiles(eid: String): Action[AnyContent] = securedAction[AnyContent] {
+  def downloadOrDeleteFiles(eid: String): Action[AnyContent] = Action.async {
     implicit request =>
       val fileId = userFileActionInputForm.bindFromRequest().data("fileId")
       val actionType = userFileActionInputForm.bindFromRequest().data("action")
@@ -143,7 +143,7 @@ object NewEnvelopesController extends Controller with FrontendController {
     }
   }
 
-  def routeAnEnvelope(eid: String): Action[AnyContent] = securedAction[AnyContent] {
+  def routeAnEnvelope(eid: String): Action[AnyContent] = Action.async {
     implicit request =>
       backConnector.routeAnEnvelope(eid) match {
         case error: Throwable ⇒ Future.successful(
@@ -165,7 +165,7 @@ object NewEnvelopesController extends Controller with FrontendController {
       }
   }
 
-  def downloadEnvelope(eid: String): Action[AnyContent] = securedAction[AnyContent] {
+  def downloadEnvelope(eid: String): Action[AnyContent] = Action.async {
     implicit request =>
       val zipName = s"$eid.zip"
       backConnector.downloadEnvelope(eid).flatMap {
@@ -182,7 +182,7 @@ object NewEnvelopesController extends Controller with FrontendController {
       }
   }
 
-  def downloadFileAfterRouted(eid: String): Action[AnyContent] = securedAction[AnyContent] {
+  def downloadFileAfterRouted(eid: String): Action[AnyContent] = Action.async {
     implicit request =>
     val fileId = userFileActionInputForm.bindFromRequest().data("fileId")
     val encodedFileId = URLEncoder.encode(fileId, "UTF-8")
@@ -199,7 +199,7 @@ object NewEnvelopesController extends Controller with FrontendController {
     }
   }
 
-  def deleteRoutedEnvelope(eid: String): Action[AnyContent] = securedAction[AnyContent] {
+  def deleteRoutedEnvelope(eid: String): Action[AnyContent] = Action.async {
     implicit request =>
       backConnector.deleteRoutedEnvelope(eid).flatMap {
         _ ⇒
@@ -208,8 +208,9 @@ object NewEnvelopesController extends Controller with FrontendController {
       }
   }
 
-  def callBack: Action[AnyContent] = Action.async {
+  def callBack: Action[AnyContent] = Action {
     implicit request =>
-      Future.successful(Ok("uploaded"))
+      Logger.info(s"${request.body}")
+      Ok("request")
   }
 }

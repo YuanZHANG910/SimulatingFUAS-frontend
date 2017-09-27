@@ -5,13 +5,13 @@ GET         /login                                     uk.gov.hmrc.SimulatingFUA
 POST        /check                                     uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.check(continueUrl: String)
 GET         /about                                     uk.gov.hmrc.SimulatingFUAS.controllers.LoginController.about
 
-GET         /                                          uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main
+GET         /                                          uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.startAnJourney
+
 GET         /envelopes                                 uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.main
 GET         /envelopesInf                              uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInf
 GET         /envelopesInf/:id                          uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInfR(id: String, inf: String)
 GET         /envelopesInfRE/:id                        uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInfRE(id: String)
 GET         /envelopesEve/:id                          uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeEve(id: String)
-
 GET         /replay                                    uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.replay(id: String, inf: String)
 
 GET         /files                                     uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.main
@@ -31,14 +31,6 @@ POST        /deleteRoutedEnvelope/:eld                 uk.gov.hmrc.SimulatingFUA
 
 
 POST        /CallBack                                  uk.gov.hmrc.SimulatingFUAS.controllers.NewEnvelopesController.callBack
-
-#Release note URLs
-GET         /add-a-service                             uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getAddAService
-POST        /add-a-service                             uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.submitAddAService
-GET         /service-list                              uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getServiceList
-GET         /service-release-notes/:serviceName        uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getServiceReleaseNotes(serviceName:String)
-GET         /get-repo-release-notes/:repoName          uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getRepoReleaseNotes(repoName: String)
-GET         /repo-list/                                uk.gov.hmrc.SimulatingFUAS.controllers.ReleaseRepoController.getRepoList
 
 
 # Map static resources from the /public folder to the /assets URL path

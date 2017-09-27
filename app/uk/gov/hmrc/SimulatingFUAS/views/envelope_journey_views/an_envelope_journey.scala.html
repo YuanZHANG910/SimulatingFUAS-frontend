@@ -1,7 +1,6 @@
 @(message: String)(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "SimulatingFUAS-frontend", mainClass = Some("full-width")) {
-    @uk.gov.hmrc.SimulatingFUAS.views.html.main_base()
 
   <h3>
     Creates an envelope and auto generates an Id. The body in the http request must be json. Successful response is provided in the Location Header which will have the link of the newly created envelope.
