@@ -1,0 +1,17 @@
+@(inf: String)(implicit request: Request[_], messages: Messages)
+
+<h3>Please enter an envelopes' id:</h3>
+
+@helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInf) {
+
+  @helper.CSRF.formField
+
+  <input name="envelopes'ID" style="width:500px;" type="text" placeholder="envelopes'ID">
+
+  <p>
+    <input class="button" type="submit"/>
+  </p>
+
+}
+
+@inf

@@ -13,7 +13,7 @@ import scala.util.Try
 
 object BackConnector extends ServicesConfig with ActionsSupport {
 
-  lazy val Url: String = baseUrl("file-back")
+  lazy val Url: String = baseUrl("file-backend")
   val http = WSHttp
 
   def createAnEmptyEnvelope()(implicit hc: HeaderCarrier, request: Request[AnyContent]): Object = {

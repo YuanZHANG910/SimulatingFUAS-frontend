@@ -12,7 +12,7 @@ GET         /envelopesInf                              uk.gov.hmrc.SimulatingFUA
 GET         /envelopesInf/:id                          uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInfR(id: String, inf: String)
 GET         /envelopesInfRE/:id                        uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeInfRE(id: String)
 GET         /envelopesEve/:id                          uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.loadEnvelopeEve(id: String)
-GET         /replay                                    uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.replay(id: String, inf: String)
+GET         /replay                                    uk.gov.hmrc.SimulatingFUAS.controllers.EnvelopeController.replay(id: String)
 
 GET         /files                                     uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.main
 GET         /files/scan                                uk.gov.hmrc.SimulatingFUAS.controllers.FilesController.scan(envelopeId: String, fileId: String, fileRef: String)

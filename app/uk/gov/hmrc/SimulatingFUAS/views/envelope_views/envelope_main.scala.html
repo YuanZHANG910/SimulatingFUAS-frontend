@@ -1,20 +1,9 @@
+@import uk.gov.hmrc.SimulatingFUAS.views.html
+
 @(inf: String)(implicit request: Request[_], messages: Messages)
 
-@uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "SimulatingFUAS-frontend", mainClass = Some("full-width")) {
+@html.main_template(title = "SimulatingFUAS-frontend", mainClass = Some("full-width")) {
 
-  <h3>Please enter an envelopes' id:</h3>
+  @html.envelope_views.envelope_main_template(inf)
 
-  @helper.form(uk.gov.hmrc.SimulatingFUAS.controllers.routes.EnvelopeController.loadEnvelopeInf) {
-
-    @helper.CSRF.formField
-
-    <input name="envelopes'ID" style="width:300px;" type="text" placeholder="envelopes'ID">
-
-    <p>
-      <input class="button" type="submit"/>
-    </p>
-
-  }
-
-  @inf
 }

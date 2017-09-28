@@ -67,10 +67,12 @@ object NewEnvelopesController extends Controller with FrontendController {
         case Right(response) ⇒
           response.map{
             case response: WSResponse =>
-              if(response.status == 200) Ok(upload_download_file(eid,
-                                            "File has been uploaded, please check your callback url or view the Envelope, " +
-                                              "or upload more files",
-                                            "", ""))
+              if(response.status == 200) {
+                Ok(upload_download_file(eid,
+                  "File has been uploaded, please check your callback url or view the Envelope, " +
+                    "or upload more filesInProgress",
+                  "", ""))
+              }
               else Ok(create_an_envelope_and_upload(eid, s"File failed to uploaded: ${response.json.toString()}"))
             case _ ⇒ Ok(create_an_envelope_and_upload(eid, "File failed to uploaded: Unknown Error"))
         }
@@ -85,7 +87,7 @@ object NewEnvelopesController extends Controller with FrontendController {
       if (fileId.isEmpty) {
         Future.successful(
           Ok(upload_download_file(eid,
-            "Upload more files, if you want to",
+            "Upload more filesInProgress, if you want to",
             "Please enter a fileId", ""))
         )
       } else {
@@ -104,15 +106,15 @@ object NewEnvelopesController extends Controller with FrontendController {
           SaveFile.saveFileToLocal(resultFromBackEnd, fileId)
           Future.successful(
             Ok(upload_download_file(eid,
-              "Upload more files, if you want to",
+              "Upload more filesInProgress, if you want to",
               s"$fileId has saved at ./tmp/$fileId, or download it use your browser " +
-                s"${backConnector.Url}/file-upload/envelopes/$eid/files/$encodedFileId/content", "")
+                s"${backConnector.Url}/file-upload/envelopes/$eid/filesInProgress/$encodedFileId/content", "")
             )
           )
         } else {
           Future.successful(
             Ok(upload_download_file(eid,
-              "Upload more files, if you want to",
+              "Upload more filesInProgress, if you want to",
               s"${resultFromBackEnd.json}",
               ""))
           )
@@ -127,14 +129,14 @@ object NewEnvelopesController extends Controller with FrontendController {
         if (resultFromBackEnd.status == 200) {
           Future.successful(
             Ok(upload_download_file(eid,
-              "Upload more files, if you want to",
+              "Upload more filesInProgress, if you want to",
               s"File:$fileId has been deleted",
               ""))
           )
         } else {
           Future.successful(
             Ok(upload_download_file(eid,
-              "Upload more files, if you want to",
+              "Upload more filesInProgress, if you want to",
               s"${resultFromBackEnd.json}",
               ""))
           )
@@ -148,7 +150,7 @@ object NewEnvelopesController extends Controller with FrontendController {
       backConnector.routeAnEnvelope(eid) match {
         case error: Throwable ⇒ Future.successful(
                                   Ok(upload_download_file(eid,
-                                                          "Upload more files, if you want to",
+                                                          "Upload more filesInProgress, if you want to",
                                                           "",
                                                           s"invalid Json $error"))
                                 )
@@ -157,7 +159,7 @@ object NewEnvelopesController extends Controller with FrontendController {
             _ ⇒
               Future.successful(
                 Ok(Envelope_routed(eid,
-                                   "The envelope has been routed, can not upload more files to the envelope," +
+                                   "The envelope has been routed, can not upload more filesInProgress to the envelope," +
                                      " but you still can download a file with a fileID, or download the envelope as a zip file",
                                    s""))
               )
@@ -173,7 +175,7 @@ object NewEnvelopesController extends Controller with FrontendController {
           SaveFile.saveFileToLocal(resultFromBackEnd, zipName)
           Future.successful(
             Ok(Envelope_routed(eid,
-                               "The envelope has been routed, can not upload more files to the envelope," +
+                               "The envelope has been routed, can not upload more filesInProgress to the envelope," +
                                  " but you still can download a file with a fileID, or download the envelope as a zip file",
                                s"$eid has saved at ./tmp/$zipName, or download it use your browser " +
                                  s"${backConnector.Url}/file-transfer/envelopes/$eid")
@@ -191,9 +193,9 @@ object NewEnvelopesController extends Controller with FrontendController {
         SaveFile.saveFileToLocal(resultFromBackEnd, fileId)
         Future.successful(
           Ok(Envelope_routed(eid,
-            "The envelope has been routed, can not upload more files, but you still can download a file with a fileID",
+            "The envelope has been routed, can not upload more filesInProgress, but you still can download a file with a fileID",
             s"$fileId has saved at ./tmp/$fileId, or download it use your browser " +
-              s"${backConnector.Url}/file-upload/envelopes/$eid/files/$encodedFileId/content")
+              s"${backConnector.Url}/file-upload/envelopes/$eid/filesInProgress/$encodedFileId/content")
           )
         )
     }

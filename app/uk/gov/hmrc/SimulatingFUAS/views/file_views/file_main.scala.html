@@ -1,11 +1,11 @@
 @import uk.gov.hmrc.SimulatingFUAS.models.FileInProgress
 @import uk.gov.hmrc.SimulatingFUAS.controllers.routes
 
-@(files: List[FileInProgress])(implicit request: Request[_], messages: Messages)
+@(files: Seq[FileInProgress])(implicit request: Request[_], messages: Messages)
 
 @uk.gov.hmrc.SimulatingFUAS.views.html.main_template(title = "SimulatingFUAS-frontend", mainClass = Some("full-width")) {
 
-  <h3>All files in quarantine:</h3>
+  <h3>All filesInProgress in quarantine:</h3>
 
   <div>
 
